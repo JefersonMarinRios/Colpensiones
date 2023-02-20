@@ -1,0 +1,116 @@
+<div class="row">
+  <div class="col">
+    <h3 class="tittle-movile">Sistema Operativo</h3>
+  </div>
+</div>
+
+<div class="row justify-content-end" style="margin-bottom: 10px;">
+  <div class="col-2">
+    <button 
+      class="btn btn-secondary boton-abrir-filtro" 
+      type="button" 
+      (click)="abrirModalFiltro()"
+      style="margin-right: 30px;"
+      >
+      Filtros
+    </button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row" style="margin-bottom: 50px;">
+    <div *ngFor="let item of datos; index as i;" class="col">
+      <div class="cabecera-item">
+        <h1>{{item.cantidad}} </h1>
+        <h2>Usuarios</h2>
+        <!-- {{item.nombre}} -->
+      </div>
+      <div class="div-item div-grafica">
+        <div class="primer-circulo">
+          <div id="div-{{item.id}}" class="segundo-circulo">
+            <div class="tercer-circulo div-grafica">
+              <h3 id="h3-{{item.id}}"></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nombre-item">
+        <div class="circulo" id="circulo-{{item.id}}"></div>
+        <p>{{item.nombre}}</p>
+      </div>
+      {{llenarGrafica(item.id)}}
+    </div>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col-6">
+      <div class="div-fecha" id="div-fecha1">
+        <!-- {{fechaInicio}} - {{fechaFinal}} -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- {{anadirFechas()}} -->
+
+<div *ngIf="switchModalFiltro == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered modal2">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Filtros</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="switchModalFiltro = false"
+          style="color: white; background-color: white; border-radius: 60px; float: right;"></button>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <input placeholder="Fecha de inicio" type="text" name="filtroFechaInicio" id="filtroFechaInicio"
+              class="filtros" [matDatepicker]="fechaInicio">
+            <mat-datepicker #fechaInicio></mat-datepicker>
+          </div>
+          <div class="col-2">
+            <mat-datepicker-toggle matSuffix [for]="fechaInicio" style="float: left;"></mat-datepicker-toggle>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input placeholder="Fecha fin" type="text" name="filtroFechaFinal" id="filtroFechaFinal" class="filtros"
+              [matDatepicker]="fechaFinal">
+            <mat-datepicker #fechaFinal></mat-datepicker>
+          </div>
+          <div class="col-2">
+            <mat-datepicker-toggle matSuffix [for]="fechaFinal" style="float: left;"></mat-datepicker-toggle>
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 20px;" *ngIf="alertaFechas == true">
+          <div class="col">
+            <p class="alerta-fechas">{{mensajeAlertaFechas}}</p>
+          </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <button style="margin-right: 10px;" class="btn azul btn-filtros" (click)="limpiarFiltros()">Limpiar</button>
+            <button style="margin-left: 10px;" class="btn verde btn-filtros" (click)="filtrar()">Filtrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Grafica -->
+<!-- <div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col div-grafica">
+      <fusioncharts [width]="width" [height]="height" [type]="type" [dataFormat]="dataFormat" [dataSource]="dataSource">
+      </fusioncharts>
+    </div>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col-6">
+      <div class="div-fecha" id="div-fecha2">
+      </div>
+    </div>
+  </div>
+</div> -->
+

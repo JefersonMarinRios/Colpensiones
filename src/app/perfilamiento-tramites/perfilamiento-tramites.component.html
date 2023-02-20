@@ -1,0 +1,161 @@
+<div class="row">
+  <div class="col">
+    <h1 class="tittle-parametros">Perfilamiento de trámites</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col tablas" style="margin-left: 20px;">
+    <table class="table table-striped tableParametros">
+      <thead>
+        <tr class="bg-success">
+          <td class="thInicial"></td>
+          <td>Nombre servicio</td>
+          <td>Editar</td>
+          <td>Estado</td>
+        </tr>
+      </thead>
+      <tbody id="bodyTableParametros">
+        <tr *ngFor="let elemento of registros | slice:desde:hasta">
+          <td class="tdInicial">
+            <input 
+                type="checkbox" 
+                id="registro-{{elemento.id_item}}" 
+                class="testeo-registros"
+                [value]="elemento.id_item" 
+                (change)="registroSeleccionado($event, elemento.id_item)">
+          </td>
+          <td>{{elemento.nombre_tramite}}</td>
+            <td>
+              <button class="boton-editar" style="color: #00993E;" mat-icon-button aria-label="remove" (click)='formulario(elemento.id_item)'>
+                <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+            <td class="color-{{elemento.estado == 1 ? 'verde' : 'negro' }}">
+              {{elemento.estado == 1 ? 'Habilitado' : 'Deshabilitado' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <mat-paginator 
+              *ngIf="activePaginator == true"
+              [length]="lengthTable"
+              [pageSize]="pageSize"
+              (page)="cambiarPagina($event)"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Select page">
+      </mat-paginator>
+    </div>
+    <div class="col-3 tablas" style="padding-right: 20px !important;">
+      <table class="table table-perfiles">
+        <thead>
+          <tr class="bg-success">
+            <td colspan="2" style="text-align: center !important;">Perfil</td>
+          </tr>
+        </thead>
+        <tbody id="bodyTablePerfiles">
+          <tr *ngFor="let elemento of perfiles">
+            <td>
+              <input class="testeo-perfiles" type="checkbox" id="perfil-{{elemento.id}}" [value]="elemento.id">
+            </td>
+            <td>{{elemento.nombre}}</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+            <button 
+                *ngIf="activeButton == true"
+                style="float: right;"
+                class="boton azul" 
+                (click)="envioFormulario('perfilamiento')"
+              >Guardar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="switchModal == true" class="back-modal">
+  <div class="modal-dialog">
+    <div class="modal-content modal-content-editado">
+      <div class="modal-header modal-header-editado">
+        <h5 class="modal-title" id="exampleModalLabel">{{modalTitle}}</h5>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <div class="mb-3">
+              <input 
+                type="text"
+                class="entrada"
+                placeholder="Nombre *"
+                (keyup)="removeClass($event)"
+                id="inputNombre"
+                [(ngModel)]="registro.nombre_tramite"
+                >
+                <span class="span-obligatorio" id="spanNombre">Campo requerido</span>
+            </div>
+            <div class="mb-3">
+              <select
+                id="inputEstado" 
+                class="entrada" 
+                (change)="removeClass($event)">
+                  <option value="1" [selected]="estadoSeleccionado == 1">Habilitado</option>
+                  <option value="0" [selected]="estadoSeleccionado == 0">Deshabilitado</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <div class="col div-botones">
+            <button type="button" class="boton azul" (click)="cerrarModal(0)">Cerrar</button>
+          </div>
+          <div class="col div-botones">
+            <button id="botonGuardar" type="button" class="boton verde" (click)="envioFormulario('editar')">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div *ngIf="switchModalAlerta == true" class="back-modal">
+  <div class="modal-dialog modalEliminar" style="margin-top: 300px;" tabindex="1040">
+    <div class="modal-content" style="width: 450px;">
+      <div class="modal-header" style="background-color: #fff !important; border-radius: 29px 29px 29px 29px;">
+        <p style="text-align: center; color: black !important; padding: 50px; font-size: 25px;">{{mensajeModal}}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="cerrarModal(1)" style="margin: 5px 5px 0 0; background-color: #00993e; border-radius: 50px; padding: 10px 15px;"></button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- modal alerta -->
+<div *ngIf="switchModalAlerta == true" class="back-modal">
+  <div class="modal-dialog">
+    <div class="modal-content modal-content-editado">
+      <div class="modal-header modal-header-editado">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-size: 30px !important;">Alerta</h5>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <h5 style="
+            text-align: center;   
+            font-size: 30px;
+            font-weight: 400;
+            margin: 30px 0;
+            "
+          >{{mensajeModal}}</h5>
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <div class="col div-botones">
+            <button type="button" class="boton azul" style="width: 130px !important;" (click)="cerrarModal(1)">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

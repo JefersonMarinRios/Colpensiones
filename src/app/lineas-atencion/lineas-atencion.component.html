@@ -1,0 +1,156 @@
+
+<mat-icon class="back" routerLink="../">reply</mat-icon>
+<br>
+<div class="row registro center-x">
+  <div class="row">
+    <div class="col">
+      <h1 class="tittle-parametros">Lineas de atención</h1>
+    </div>
+  </div>
+
+  <div class="col-lg-2 columna-tipo">
+    <p style="text-align: center;">Mensaje superior</p>
+  </div>
+  <div class="col-lg-6 columna-texto" >
+    <div class="row" style="border-radius: 0px 25px 25px 0px;">
+      <div class="col flex-box center-y center-x" style="height: 50px;">
+        <p style="text-align: center;">
+          {{ mensajePrincipal.nombre }}
+          <br />
+          {{ mensajePrincipal.numero }}
+        </p>
+      </div>
+      <div class="col-1 flex-box center-y center-x">
+        <mat-icon (click)="abrirModalAccion('superior', 'Actualizar', null)">edit</mat-icon>
+      </div>
+      <!-- <div class="col-1 flex-box center-y center-x">
+        <mat-icon (click)="confirmacionEliminar('superior', mensajePrincipal.id)">delete</mat-icon>
+      </div> -->
+    </div>
+  </div>
+  <!-- <div class="col-lg-1 flex-box center-y center-x" style="margin-bottom: 20px;" >
+    <mat-icon>delete</mat-icon>
+  </div> -->
+</div>
+<div *ngFor="let item of lineasAtencion, index as i, first as isFirst" class="row registro center-x">
+  <div class="col-lg-2 columna-tipo">
+    <p style="text-align: center;">Línea de atención</p>
+  </div>
+  <div class="col-lg-6 columna-texto">
+    <div class="row">
+      <div class="col flex-box center-y center-x">
+        <p style="text-align: center;">
+          {{ item.nombre }}
+          <br />
+          {{ item.numero }}
+        </p>
+      </div>
+      <div class="col-1 flex-box center-y center-x">
+        <mat-icon (click)="abrirModalAccion('linea', 'Actualizar', i); abrirModal(i)">edit</mat-icon>
+      </div>
+      <div class="col-1 flex-box center-y center-x">
+        <mat-icon (click)="confirmacionEliminar('linea', item.id)">delete</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row registro center-x ultimo">
+  <div class="col-lg-3 flex-box center-y center-x">
+    <button type="button" class="btn btn-block btn-plus" (click)="abrirModalAccion('linea', 'Guardar', null)">
+      +
+    </button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div *ngIf="modalSwitch == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered modal2" tabindex="1040">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title col-11 text-center" id="exampleModalLabel">{{tituloModal}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cerrarModal(0)"
+          style="color: white; background-color: white; border-radius: 60px; float: right;"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col">
+              <textarea class="form-control" id="nombreLinea" style="height: 100px;"
+                [(ngModel)]="this.lineaAtencion.nombre" placeholder="Escribe algo aquí" (keyup)="removeClass($event)"
+                (keyup)="validarLongitud($event)" maxlength="100">{{this.lineaAtencion.nombre}}
+              </textarea>
+                  <span class="span-obligatorio" id="spanNombreLinea">Campo requerido</span>
+                  <span class="span-obligatorio" id="spanNombreLineaC">Tamaño máximo 100 caracteres</span>
+
+              <input *ngIf="this.lineaAtencion.tipo == 1" class="form-control" id="numeroLinea" [(ngModel)]="this.lineaAtencion.numero"
+                placeholder="Escribe el numero aquí" (keyup)="removeClass($event)" (keypress)="validarLongitud($event)"
+                maxlength="100" value="{{this.lineaAtencion.numero}}">
+              <!-- </textarea> -->
+              <!-- <input value="{{this.lineaAtencion.numero}}" type="number" class="form-control" id="numeroLinea" [(ngModel)]="this.lineaAtencion.numero"
+                placeholder="Escribe el numero aquí" (keyup)="removeClass($event)" (keyup)="validarLongitud($event)"
+                maxlength="100"> -->
+                  <span class="span-obligatorio" id="spanNumeroLinea">Campo requerido</span>
+                  <span class="span-obligatorio" id="spanNumeroLineaC">Tamaño máximo 100 caracteres</span>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row justify-content-center" style="padding: 0px;">
+          <button type="button" class="btn azul btn-round" data-bs-dismiss="modal"
+            (click)="cerrarModal(0)">Cancelar</button>
+          <button type="button" class="btn verde btn-round" (click)="guardarCambios()">Guardar cambios</button>
+        </div>
+      </div>
+      <!-- <div class="modal-footer"> -->
+        <!-- <div class="justify-content-center"> -->
+        <!-- </div> -->
+      <!-- </div> -->
+    </div>
+  </div>
+</div>
+
+
+<!-- confirmación -->
+<div *ngIf="modalSwitchConfirmacion == true" class="back-modal">
+  <div class="modal-dialog  modal-dialog-centered modalEliminar" tabindex="1040">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title col-11 text-center">Alerta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="cerrarModalConfirmacion()"
+          style="color: white; background-color: white; border-radius: 60px; float: right;"></button>
+      </div>
+      <div class="modal-body">
+        <h5 style="text-align: center">
+          {{mensajeConfirmacion}}
+        </h5>
+        <div class="row justify-content-center" style="padding: 0px;">
+          <button type="button" class="btn azul btn-round" (click)="eliminar()">Eliminar</button>
+          <button type="button" class="btn verde btn-round" (click)="cerrarModalConfirmacion()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal alerta -->
+<div *ngIf="switchModalAlerta == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered modal2">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Alerta</h5>
+      </div>
+      <div class="modal-body">
+        <div class="">
+          <h5 style="text-align: center">{{ mensajeModal }}</h5>
+        </div>
+        <div class="row justify-content-center" style="padding: 0px;margin-top: 20px">
+          <button type="button" class="btn azul btn-round" style="width: 130px !important" (click)="cerrarModal(1)">
+            Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

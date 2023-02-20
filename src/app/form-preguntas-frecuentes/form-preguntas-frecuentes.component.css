@@ -1,0 +1,258 @@
+.title {
+  /* Titulo */
+  text-align: center;
+  font-weight: bold;
+  font-size: 45px;
+  color: #00993E;
+  margin-bottom: 40px;
+}
+.row {
+  /* margin-top: 20px; */
+  margin-right: 20px;
+  margin-left: 15px;
+ /* margin: 1px;
+  /* width: 95%;
+    max-width: max-content;
+    height: auto;
+    height: auto; */
+}
+
+.registro{
+  margin-bottom: 15px;
+}
+
+.registro-pregunta{
+  background-color: #f6f6f6;
+  /*padding: 15px 10px 0px 15px;*/
+  padding: 10px 10px 0px 10px;
+  border: none;
+  border-radius: 15px 15px 0 0;
+}
+
+.text-respuesta{
+  border: 1px solid #d7d7d7;
+  border-radius: 0 0 15px 15px;
+  color: #011F5A; 
+  font-size: 20px; 
+  font-weight: 400;
+}
+
+.boton-agregar{
+  background-color: #f4f6fc;
+  border: none;
+  border-radius: 25px;
+  color: #011f5a;
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+  width: 100%;
+  height: 80px;
+}
+
+.boton-agregar:focus{
+  outline: none;
+}
+
+.icon-table:hover{
+  cursor: pointer;
+}
+
+/* fondo gris */
+.back-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #0000008a;
+}
+
+.back-modal .modal-dialog {
+  opacity: 1;
+}
+
+.btn-close {
+  background-color: #00993e;
+  margin: 10;
+  border-radius: 50%;
+  color: white;
+  float: right;
+}
+
+.azul {
+  background-color: #3f51b5 !important;
+}
+
+.verde {
+  background-color: #00993E !important;
+}
+
+.btn-rounded {
+  width: 200px;
+  height: 60px;
+  border-radius: 25px 25px 25px 25px;
+  color: white;
+  font-size: 20px;
+}
+
+
+/******************************************************/
+*{
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+}
+
+
+/* Botones */
+.div-button{
+  border: none;
+  width: 300px;
+  display: flex;
+  align-items: start;
+  margin-top: 20px;
+}
+
+.btn-round{
+  border: none;
+  height: 70px;
+  width: 300px;
+  border-radius: 25px 25px 25px 25px;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Diviciones input */
+.div-input{
+  background-color: #f6f6f6;
+  border-radius: 25px 25px 25px 25px;
+  margin-bottom: 20px;
+}
+
+.columna{
+  height: 50px;
+  /* display: flex;
+  align-items: center; */
+}
+
+.columna:first{
+  padding-left: 10px;
+}
+
+.columna:first-child{
+  padding-top: 13px;
+}
+
+.columna:last-child{
+  padding-right: 0;
+}
+
+.input-form{
+  border: none;
+  border-radius: 25px 25px 25px 25px;
+  box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
+  width: 40%;
+  height: 100%;
+  padding-left: 10px;
+}
+
+.divMensaje .input-form{
+  height: 100px;
+  width: 90%;
+}
+
+.input-form:focus{
+  outline: none;
+}
+
+/* iconos calendario */
+
+.divCalendar mat-datepicker-toggle{
+  color: #00993e !important;
+}
+
+.divCalendar{
+  width: 50px !important;
+}
+
+.campo-vacio{
+  border: 1px solid red;
+}
+
+.span-obligatorio{
+  margin-left: 15px;
+  color: red;
+  font-size: 15px;
+  display: none;
+  float: right;
+  padding-right: 20px;
+  margin-bottom: 5px;
+}
+
+#spanFechas{
+  margin-bottom: 10px;
+}
+
+select{
+  background-image: url('../../assets/images/flecha-select.svg'); /*aquí deberás escribir la ruta de la imagen que utilizarás como flecha del desplegable*/
+  background-repeat: no-repeat;
+  background-position: right center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+}
+
+select::-ms-expand {
+  display: none; /*Evita que se muestre la flecha por defecto en versiones de IE*/
+}
+
+
+.back-modal .modal-dialog {
+  opacity: 1;
+}
+
+
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+input[type=number] { -moz-appearance:textfield; }
+
+@media (max-width: 1200px){
+  
+}
+
+/* Divicion botones */
+.div-botones{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 50px;
+}
+
+.boton{
+  border: none;
+  border-radius: 20px;
+  text-align: center;
+  height: 80px;
+  color: white;
+  font-weight: 500;
+  font-size: 20px;
+  padding: 10px 20px;
+  margin: 0 10px;
+}
+
+
+.verde{
+  background-color: #00993e;
+}
+
+.gris{
+  background-color: #656565;
+}
+
+.azul{
+  background-color: #3f51b5;
+}
+

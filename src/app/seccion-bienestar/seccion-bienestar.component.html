@@ -1,0 +1,15 @@
+<div class="container-fluid container-md container-sm">
+  <h1 class="tittle-parametros">Seccion Bienestar</h1>
+  
+  <div class="row">
+    <div
+      class="col registro"
+      *ngFor="let item of datos"
+      [routerLink]="item.dir">
+      <div class="div-contenedor center-x center-y">
+        <img src="..\assets\images\{{ item.icon }}" class="imagen" alt="" />
+      </div>
+      <p class="textCenter" for="">{{ item.nombre }}</p>
+    </div>
+  </div>
+</div>

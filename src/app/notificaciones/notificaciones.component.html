@@ -1,0 +1,252 @@
+
+<div class="container {{claseTamano}}">
+  <div class="row">
+    <div class="col">
+      <h1 class="tittulo-modulo">Notificaciones</h1>
+    </div>
+  </div>
+
+  <div class="row" id="row-1">
+    <!-- Divición sección excel -->
+    <div class="col-4" id="columna-recuadro-excel"
+      *ngIf="currentScreenSize == 'Large' || currentScreenSize == 'XLarge'">
+      <div class="recuadro-excel center-y center-x">
+        <img class="stats-logos" src="..\assets\images\archivopac.png" />
+      </div>
+      <div class="div-button center-y center-x">
+        <button class="btn-round verde" (click)="abirCargaArchivo($event)"> <b>Cargar archivos</b> <br> Formato
+          Excel .xlsx </button>
+        <input type="file" id="uploadFile" name="uploadFile" style="display: none;"
+          (change)="addFile($event.target.files)">
+        <!-- <input type="file" id="file" class="btn-round verde"> <b>Cargar archivos</b> <br> Formato Excel .xlsx -->
+      </div>
+      <div class="div-button center-y center-x">
+        <!-- <a href="https://appmovil.colpensiones.gov.co/AppColp/fta/ExcelNotificacion.xlsx" target="_blank"
+          class="btn-round azul"> <b>Descargar archivo de muestra</b> <br> Formato Excel .xlsx </a>  <!-- PROD -->
+
+        <a href="http://appmovil.appqa.loc:8080/AppColp/fta/ExcelNotificacion.xlsx" target="_blank"
+          class="btn-round azul"> <b>Descargar archivo de muestra</b> <br> Formato Excel .xlsx </a> <!-- QA -->
+
+        <!-- <a href="http://104.196.185.7/AppColp-Dev/fta/ExcelNotificacion.xlsx" target="_blank"
+          class="btn-round azul"> <b>Descargar archivo de muestra</b> <br> Formato Excel .xlsx </a> <!-- DEV -->
+
+      </div>
+    </div>
+    <div class="col" id="columna-formulario">
+      <!-- Fila tipo notificacion -->
+      <div class="div-input row">
+        <div class="col-4 columna">
+          <label for="">Tipo de notificación *</label>
+        </div>
+        <div class="col columna">
+          <!-- <select [(ngModel)]="tipoNotificacion" name="tipoNotificacion" id="tipoNotificacion" class="input-form"> -->
+          <select [(ngModel)]="tipoNotificacion" name="tipoNotificacion" id="tipoNotificacion" class="input-form"
+            (change)="cambioTipo()" (change)="removeClass($event)">
+            <option value="0">Seleccionar tipo</option>
+            <option value="1">Individual</option>
+            <option value="2">General</option>
+          </select>
+          <span class="span-obligatorio" id="spanTipo">Campo requerido</span>
+        </div>
+      </div>
+      <!-- Fila titulo notificacion -->
+      <div class="div-input row">
+        <div class="col-4 columna">
+          <label for="">Titulo de la notificación</label>
+        </div>
+        <div class="col columna">
+          <input [disabled]="tipoNotificacion == 0" [(ngModel)]="cuerpoNotificacion.titulo" type="text"
+            name="tituloNotificacion" id="tituloNotificacion" class="input-form" (change)="removeClass($event)"
+            (keyup)="validarLongitud($event)" maxlength="50">
+          <span class="span-obligatorio" id="spanTitulo">Campo requerido</span>
+          <span class="span-obligatorio" id="spanTituloC">Tamaño maximo 50 caracteres</span>
+        </div>
+      </div>
+      <!-- Fila Perfil -->
+      <div *ngIf="tipoNotificacion == 0 || tipoNotificacion == 2" class="div-input row">
+        <div class="col-4 columna">
+          <label for="">Perfil</label>
+        </div>
+        <div class="col columna">
+          <select [disabled]="tipoNotificacion == 0" [(ngModel)]="modelPerfil" name="perfil" id="perfil"
+            class="input-form" (change)="seleccionPerfil($event)">
+            <option value="" selected>Selecciona tipo de perfil</option>
+            <option *ngFor="let item of perfiles, index as i, first as isFirst" value="{{item.id}}">{{item.nombre}}
+            </option>
+          </select>
+          <!-- <span class="span-obligatorio" id="spanPerfil">Campo requerido</span> -->
+        </div>
+      </div>
+      <!-- Fila tipo documento -->
+      <div *ngIf="tipoNotificacion == 0 || tipoNotificacion == 1" class="div-input row">
+        <div class="col-4 columna">
+          <label for="">Tipo de documento *</label>
+        </div>
+        <div class="col columna">
+          <select [disabled]="tipoNotificacion == 0" placeholder="Selecciona tipo de documento"
+            [(ngModel)]="cuerpoNotificacion.tipoDocumento" name="tipoDocumento" id="tipoDocumento" class="input-form"
+            (change)="removeClass($event)">
+            <option value="" selected>Selecciona tipo de documento</option>
+            <option value="CC">Cédula de ciudadanía</option>
+            <option value="CE">Cédula de extrangería</option>
+          </select>
+          <span class="span-obligatorio" id="spanTipoCedula">Campo requerido</span>
+        </div>
+      </div>
+      <!-- Fila numero documento -->
+      <div *ngIf="tipoNotificacion == 0 || tipoNotificacion == 1" class="div-input row">
+        <div class="col-4 columna">
+          <label for="">Número documento *</label>
+        </div>
+        <div class="col columna">
+          <input [disabled]="tipoNotificacion == 0" [(ngModel)]="cuerpoNotificacion.numeroDocumento" type="number"
+            name="numeroDocumento" id="numeroDocumento" class="input-form" (change)="removeClass($event)"
+            (keyup)="validarLongitud($event)" maxlength='15' (keypress)="validarNumero($event)"
+            pattern="[0-9]+" min="1" max="999999999999999"
+            >
+          <span class="span-obligatorio" id="spanNumero">Campo requerido</span>
+          <span class="span-obligatorio" id="spanNumeroC">Tamaño maximo 15 caracteres</span>
+        </div>
+      </div>
+      <!-- Fila rango de fechas -->
+      <div class="row">
+        <div class="col-3 div-input">
+          <div class="columna">
+            <label for="">Fecha inicial *</label>
+          </div>
+        </div>
+        <div class="divCalendar">
+          <mat-datepicker-toggle matSuffix [for]="fechaInicial"></mat-datepicker-toggle>
+        </div>
+        <div class="col columna">
+          <mat-datepicker #fechaInicial></mat-datepicker>
+          <input 
+            [disabled]="tipoNotificacion == 0 || (tipoNotificacion == 2 && perfilSeleccionado == false)"
+            [(ngModel)]="cuerpoNotificacion.fecha_inicio" type="text" name="fechaInicial" id="fechaInicial"
+            class="input-form" [matDatepicker]="fechaInicial" style="padding-left: 30px;"
+            (change)="removeClass($event)">
+          <span class="span-obligatorio" id="spanFechaInicial" style="padding-right: 0px; float: left;">Campo
+            requerido</span>
+        </div>
+
+        <div class="col-2 div-input">
+          <div class="columna">
+            <label for="">Fecha Final *</label>
+          </div>
+        </div>
+        <div class="divCalendar">
+          <mat-datepicker-toggle matSuffix [for]="fechaFinal"></mat-datepicker-toggle>
+        </div>
+        <div class="col columna">
+          <mat-datepicker #fechaFinal></mat-datepicker>
+          <input [disabled]="tipoNotificacion == 0" [(ngModel)]="cuerpoNotificacion.fecha_final" type="text"
+            name="fechaFinal" id="fechaFinal" class="input-form" [matDatepicker]="fechaFinal"
+            style="padding-left: 30px;" (change)="removeClass($event)">
+          <span class="span-obligatorio" id="spanFechaFinal" style="padding-right: 0px; float: left;">Campo
+            requerido</span>
+        </div>
+      </div>
+      <!-- <div class="row filaAlerta justify-content-md-center">
+        <div class="col-3"> -->
+      <!-- <span class="span-obligatorio" id="spanFechas">Ambos campos son requeridos</span>
+        </div>
+      </div> -->
+      <!-- Fila Mensaje -->
+      <div class="row">
+        <div class="col-4 div-input columna">
+          <!-- <div class="columna"> -->
+          <label for="">Mensaje *</label>
+          <!-- </div> -->
+        </div>
+        <div class="col divMensaje">
+          <!-- <input type="text" name="mensaje" id="mensaje" class="input-form" placeholder="Escribe tu mensaje"> -->
+          <textarea [disabled]="tipoNotificacion == 0" [(ngModel)]="cuerpoNotificacion.subtitulo" id="mensaje"
+            class="input-form" placeholder="Escribe tu mensaje" (change)="removeClass($event)"
+            (keyup)="validarLongitud($event)" maxlength='150'></textarea>
+          <span class="span-obligatorio" id="spanMensaje">Campo requerido</span>
+          <span class="span-obligatorio" id="spanMensajeC">Tamaño maximo 150 caracteres</span>
+        </div>
+      </div>
+      <!-- Fila URl -->
+      <div class="row" style="margin-top: 20px;">
+        <div class="col-4 div-input columna">
+          <!-- <div class="columna"> -->
+          <label for="">Url </label>
+          <!-- </div> -->
+        </div>
+        <div class="col divMensaje">
+          <!-- <input type="text" name="mensaje" id="mensaje" class="input-form" placeholder="Escribe tu mensaje"> -->
+          <textarea [disabled]="tipoNotificacion == 0" [(ngModel)]="cuerpoNotificacion.url" id="url"
+            class="input-form" (keyup)="validarLongitud($event)" maxlength='500'></textarea>
+          <span class="span-obligatorio" id="spanURLC">Tamaño maximo 500 caracteres</span>
+          <span class="span-obligatorio" id="spanURLValid">URL no es valida</span>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="row" style="margin-bottom: 20px;">
+        <div class="col div-button center-y center-x">
+          <button class="btn-round azul" style="height: 50px; font-size: 20px; font-weight: 500;"
+            (click)="cancelar()">Cancelar</button>
+        </div>
+        <div class="col div-button center-y center-x">
+          <button class="btn-round verde" style="height: 50px; font-size: 20px; font-weight: 500;"
+            (click)="guardar()">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-md-center" id="row-2"
+    *ngIf="currentScreenSize == 'Medium' || currentScreenSize == 'Small' || currentScreenSize == 'XSmall'">
+    <div class="col-4" id="columna-recuadro-excel">
+      <div class="recuadro-excel center-y center-x">
+        <img class="stats-logos" src="..\assets\images\archivopac.png" />
+      </div>
+      <div class="div-button center-y center-x">
+        <button class="btn-round verde" (click)="abirCargaArchivo($event)"> <b>Cargar archivos</b> <br> Formato
+          Excel .xlsx </button>
+        <input type="file" id="uploadFile" name="uploadFile" style="display: none;"
+          (change)="addFile($event.target.files)">
+        <!-- <input type="file" id="file" class="btn-round verde"> <b>Cargar archivos</b> <br> Formato Excel .xlsx -->
+      </div>
+      <div class="div-button center-y center-x">
+          <!-- <a href="http://104.196.185.7/AppColp-Dev/fta/ExcelNotificacion.xlsx" target="_blank"
+          class="btn-round azul"> <b>Descargar archivo de muestra</b> <br> Formato Excel .xlsx </a> <!-- DEV -->
+
+          <!-- <a href="https://appmovil.colpensiones.gov.co/AppColp/fta/ExcelNotificacion.xlsx" target="_blank"
+          class="btn-round azul"> <b>Descargar archivo de muestra</b> <br> Formato Excel .xlsx </a>  <!-- PROD -->
+
+          <a href="http://appmovil.appqa.loc:8080/AppColp/fta/ExcelNotificacion.xlsx" target="_blank"
+          class="btn-round azul"> <b>Descargar archivo de muestra</b> <br> Formato Excel .xlsx </a> <!-- QA -->
+          
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal alerta -->
+<div *ngIf="switchModal == true" class="back-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-size: 30px !important;">Alerta</h5>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <h5 style="
+          text-align: center;   
+          font-size: 30px;
+          font-weight: 400;
+          margin: 30px 0;
+          ">{{mensajeModal}}</h5>
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <div class="col div-botones">
+            <button type="button" class="boton azul" style="width: 130px !important;" (click)="cerrarModal(1)">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,282 @@
+
+
+  <!-- encuestas generales -->
+<h3 class="titulo-seccion">{{preguntasGenerales.length > 1 ? 'Encuestas generales' : 'Encuesta general'}}</h3>
+
+<div class="contenedor-preguntas">
+  <div class="row fila-registro" *ngFor="let registro of preguntasGenerales">
+    <div class="col" style="display:flex; justify-content: center; align-items: center;">
+      <input type="text" class="input-pregunta" [disabled]="idCampo == registro.id ? false : true" id="input-general-{{registro.id}}" [value]="registro.pregunta">
+    </div>
+    <div class="col-2">
+      <button *ngIf="idCampo == 0" class="icon-editar" mat-icon-button (click)="habilitarCampo(registro.id, 'general')">
+          <mat-icon>edit</mat-icon>
+      </button>
+      <button *ngIf="idCampo == registro.id" class="icon-editar" mat-icon-button (click)="guardarCampo(registro.id, 'general')">
+          <mat-icon>done</mat-icon>
+      </button> 
+      <button *ngIf="idCampo == registro.id" class="icon-editar" mat-icon-button (click)="cancelarCambio(registro.id, 'general')">
+          <mat-icon>clear</mat-icon>
+      </button> 
+      <mat-slide-toggle [checked]="registro.estado == 1" (change)="cambiarEstado($event, registro.id, 'general')"></mat-slide-toggle>
+    </div>
+  </div>
+
+  <div *ngIf="crearPregunta == 'general'" class="row fila-registro">
+    <div class="col" style="display:flex; justify-content: center; align-items: center;">
+      <input type="text" class="input-pregunta" id="input-general-crear" placeholder="Escriba aquí la pregunta">
+    </div>
+    <div class="col-2">
+      <button class="icon-editar" mat-icon-button (click)="guardarCampoCrear('general')">
+          <mat-icon>done</mat-icon>
+      </button> 
+      <button class="icon-editar" mat-icon-button (click)="cancelarCambioCrear('general')">
+          <mat-icon>clear</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="width: 100%; margin-top: 30px;">
+  <div class="col div-botones">
+      <button *ngIf="crearPregunta == '' || crearPregunta == null" (click)="habilitarCampoCrear('general')"
+      class="boton verde" style="font-weight: 500; font-size: 30px; width: 300px; text-align: center; height: 75px;">
+        Crear pregunta
+      </button>
+  </div>
+</div>
+
+
+<!-- encuestas Multiple -->
+<h3 class="titulo-seccion">{{preguntasMultiples.length > 1 ? 'Encuestas multiples' : 'Encuesta multiple'}}</h3>
+
+<div class="contenedor-preguntas">
+  <div class="row fila-registro" *ngFor="let registro of preguntasMultiples">
+    <div class="row">
+      <div class="col" style="display:flex; justify-content: center; align-items: center;">
+        <input type="text" class="input-pregunta" [disabled]="idCampo == registro.id ? false : true" id="input-multiple-{{registro.id}}" [value]="registro.pregunta">
+      </div>
+      <div class="col-2">
+        <button *ngIf="idCampo == 0" class="icon-editar" mat-icon-button (click)="verRegistro(registro.id)">
+            <mat-icon>remove_red_eye</mat-icon>
+        </button>
+        <button *ngIf="idMultiple == registro.id" class="icon-editar" mat-icon-button (click)="ocultarRegistro(registro.id)">
+            <mat-icon>clear</mat-icon>
+        </button>
+        <button *ngIf="idCampo == 0" class="icon-editar" mat-icon-button (click)="habilitarCampo(registro.id, 'multiple')">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button *ngIf="idCampo == registro.id" class="icon-editar" mat-icon-button (click)="guardarCampo(registro.id, 'multiple')">
+            <mat-icon>done</mat-icon>
+        </button> 
+        <button *ngIf="idCampo == registro.id" class="icon-editar" mat-icon-button (click)="cancelarCambio(registro.id, 'multiple')">
+            <mat-icon>clear</mat-icon>
+        </button> 
+        <mat-slide-toggle [checked]="registro.estado == 1" (change)="cambiarEstado($event, registro.id, 'multiple')"></mat-slide-toggle>
+      </div>
+    </div>
+    <!-- rango de valores -->
+    <div class="row justify-content-center" *ngIf="idMultiple == registro.id" style="margin-top: 20px;">
+      <p style="text-align: center;">seleccione el valor para asignar la pregunta:</p>
+      <div class="col-3">
+        <mat-radio-button [value]="registro.rangovalores1" style="float: right;" [checked]="rangoActivo == 1 ? true : false" (click)="activarRango(1, registro.id)">
+          De&nbsp; 
+          <!-- <input type="number" [disabled]="true" id="primer-rango-1-{{registro.id}}" class="input-rango" [value]="rangoUno[0]"> -->
+          <input type="number" [disabled]="true" id="primer-rango-1-{{registro.id}}" class="input-rango" [value]="1">
+          &nbsp;a&nbsp;
+          <input 
+            type="number" 
+            id="primer-rango-2-{{registro.id}}" 
+            class="input-rango" 
+            [value]="rangoUno[1]" 
+            (change)="cambiarRangos($event, registro.id, 1)"
+            [min]="2"
+            [max]="8"
+            >
+        </mat-radio-button>
+      </div>
+      <div class="col-3">
+        <mat-radio-button [value]="registro.rangovalores2" style="float: left;" [checked]="rangoActivo == 2 ? true : false" (click)="activarRango(2, registro.id)">
+          De&nbsp; 
+          <input 
+            type="number" id="segundo-rango-1-{{registro.id}}" 
+            class="input-rango" [value]="rangoDos[0]" 
+            (change)="cambiarRangos($event, registro.id, 2)"
+            [min]="3"
+            [max]="9"  
+          >
+          &nbsp;a&nbsp;
+          <!-- <input type="number" [disabled]="true" id="segundo-rango-2-{{registro.id}}" class="input-rango" [value]="rangoDos[1]"> -->
+          <input type="number" [disabled]="true" id="segundo-rango-2-{{registro.id}}" class="input-rango" [value]="10">
+        </mat-radio-button>
+      </div>
+      <div class="col-1">
+        <button *ngIf="idCambioRango == registro.id" class="icon-editar" mat-icon-button (click)="guardarRangos(registro.id)">
+          <mat-icon>done</mat-icon>
+        </button> 
+
+        <button *ngIf="idCambioRango == registro.id" class="icon-editar" mat-icon-button (click)="cancelarRangos(registro.id)">
+          <mat-icon>clear</mat-icon>
+      </button> 
+      </div>
+    </div>
+    <div class="row" *ngIf="idMultiple == registro.id" style="margin-top: 20px;">
+      <div class="row justify-content-center" *ngFor="let preguntaHija of preguntasHijasFiltradas" style="margin-top: 20px;">
+        <div class="row">
+          <div class="col" style="display:flex; justify-content: center; align-items: center;">
+            <input type="text" class="input-pregunta" 
+            id="input-hija-{{preguntaHija.id}}" 
+            [value]="preguntaHija.pregunta"
+            >
+          </div>
+          <div class="col-2">
+            <!-- <button class="icon-editar" mat-icon-button (click)="modificarPreguntaHija(preguntaHija.id)" > -->
+            <button class="icon-editar" mat-icon-button (click)="guardarCampo(preguntaHija.id, 'hija')" >
+                <mat-icon>done</mat-icon>
+            </button>
+            <mat-slide-toggle [checked]="preguntaHija.estado == 1" (change)="cambiarEstado($event, preguntaHija.id, 'hija')"></mat-slide-toggle>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 20px; width: 80%;" *ngFor="let itemRes of respuestas">
+          <div class="col" style="display:flex; justify-content: center; align-items: center;">
+            <input type="text" class="input-respuesta" id="respuesta-{{itemRes.id}}" [value]="itemRes.respuesta">
+          </div>
+          <div class="col-2">
+            <button class="icon-editar" mat-icon-button (click)="eliminarRespuesta(itemRes.id, preguntaHija.id)" >
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button class="icon-editar" mat-icon-button (click)="guardarRespuesta(itemRes.id, preguntaHija.id)">
+              <mat-icon>done</mat-icon>
+            </button> 
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+          <div class="col div-botones">
+            <button (click)="guardarRespuesta(0, preguntaHija.id)"
+            class="boton verde" style="font-weight: 500; font-size: 30px; width: 300px; text-align: center; height: 75px;">
+              Crear respuesta
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="crearPregunta == 'multiple'" class="row fila-registro">
+    <div class="col" style="display:flex; justify-content: center; align-items: center;">
+      <input type="text" class="input-pregunta" id="input-multiple-crear" placeholder="Escriba aquí la pregunta">
+    </div>
+    <div class="col-2">
+      <button class="icon-editar" mat-icon-button (click)="guardarCampoCrear('multiple')">
+          <mat-icon>done</mat-icon>
+      </button> 
+      <button class="icon-editar" mat-icon-button (click)="cancelarCambioCrear('multiple')">
+          <mat-icon>clear</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="width: 100%; margin-top: 30px;">
+  <div class="col div-botones">
+      <button *ngIf="crearPregunta == '' || crearPregunta == null" (click)="habilitarCampoCrear('multiple')"
+      class="boton verde" style="font-weight: 500; font-size: 30px; width: 300px; text-align: center; height: 75px;">
+        Crear encuesta
+      </button>
+  </div>
+</div>
+
+
+<!-- Mensaje agradecimiento -->
+<h3 class="titulo-seccion">Mensaje agradecimiento</h3>
+
+<div class="contenedor-preguntas">
+  <div class="row fila-registro" >
+    <h5 style="color: #011F5A;">Correo de respuesta:</h5>
+    <div class="col" style="display:flex; justify-content: center; align-items: center;">
+      <input type="text" class="input-pregunta" id="input-correo" [value]="parametros.emailEncuesta" (keyup)="cambioCorreo($event)" >
+    </div>
+    <div class="col-2">
+      <button *ngIf="correoNueva != null" class="icon-editar" mat-icon-button (click)="guardarCorreo(true)">
+        <mat-icon>done</mat-icon>
+      </button> 
+      <button *ngIf="correoNueva != null" class="icon-editar" mat-icon-button (click)="guardarCorreo(false)">
+        <mat-icon>clear</mat-icon>
+      </button>
+      <mat-slide-toggle [checked]="parametros.estadoAgradecmineto == 1" (change)="cambiarEstado($event, parametros.id, 'parametros')"></mat-slide-toggle>
+    </div>
+  </div>
+  <div class="row fila-registro" >
+    <h5 style="color: #011F5A;">Mensaje de agradecimiento:</h5>
+    <div class="col" style="display:flex; justify-content: center; align-items: center;">
+      <textarea id="input-agradecimiento" class="input-pregunta" style="height: 100px;" (keyup)="cambioAgradecimiento($event)">{{parametros.agradecimientoEncuesta}}</textarea>
+    </div>
+    <div class="col-2">
+      <button *ngIf="agradecimientoNueva != null" class="icon-editar" mat-icon-button (click)="guardarAgradecimiento(true)">
+        <mat-icon>done</mat-icon>
+      </button> 
+      <button *ngIf="agradecimientoNueva != null" class="icon-editar" mat-icon-button (click)="guardarAgradecimiento(false)">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+<br><br>
+
+<div class="contenedor-preguntas">
+  <div class="row fila-registro" >
+    <div class="col" style="display:flex; justify-content: center; align-items: center;">
+      <h5 style="color: #011F5A;">Frecuencia de encuesta:</h5>
+      <select id="input-frecuencia" class="input-pregunta" (change)="cambioFrecuencia($event)">
+        <option [value]="30" [selected]="parametros.frecuenciaEnvioEncuesta == 30">30 Días</option>
+        <option [value]="60" [selected]="parametros.frecuenciaEnvioEncuesta == 60">60 Días</option>
+        <option [value]="90" [selected]="parametros.frecuenciaEnvioEncuesta == 90">90 Días</option>
+      </select>
+    </div>
+    <div class="col-2">
+      <button *ngIf="frecuenciaNueva != null" class="icon-editar" mat-icon-button (click)="guardarFrecuencia(true)">
+        <mat-icon>done</mat-icon>
+      </button> 
+      <button *ngIf="frecuenciaNueva != null" class="icon-editar" mat-icon-button (click)="guardarFrecuencia(false)">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+<br><br>
+<br><br>
+<br><br>
+
+
+
+
+<!-- modal alerta -->
+<div *ngIf="switchModalAlerta == true" class="back-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-size: 30px !important;">Alerta</h5>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <h5 style="
+            text-align: center;   
+            font-size: 30px;
+            font-weight: 400;
+            margin: 30px 0;
+            ">{{mensajeModal}}</h5>
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <div class="col div-botones">
+            <button type="button" class="boton azul" style="width: 130px !important;" (click)="cerrarModal(1)">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

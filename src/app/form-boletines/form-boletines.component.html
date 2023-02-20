@@ -1,0 +1,191 @@
+<!-- Boton regresaar -->
+<mat-icon class="back" routerLink="../boletines">reply</mat-icon>
+<br>
+<div class=" container-fluid container-md container-sm {{claseTamano}}">
+  <h1 class="tittulo-modulo">{{accion == 'guardar' ? 'Crear boletín' : 'Modificar boletín'}}</h1>
+
+  <div class="row" id="row-1">
+    <!-- Divición sección excel -->
+    <div class="col-4" id="columna-recuadro-excel">
+      <div id="recuadro-excel" class="recuadro-excel center-y center-x">
+        <img id="imagen-recuadro-excel" class="stats-logos" src="..\assets\images\archivopac.png" />{{accion == "editar" ? anadirImagen(boletin): ""}}
+      </div>
+      <span class="span-obligatorio" id="spanImagen">Carga de imagen requerida</span>
+      <div class="div-button center-y center-x">
+        <button class="btn-round btn-success" (click)="abirCargaArchivo()"> <b>Cargar archivo</b> <br> (Extensiones
+          jpg - png)</button>
+        <input accept="image/*" type="file" id="cargaImagen" name="cargaImagen" style="display: none;"
+          (change)="addFile($event.target.files)">
+      </div>
+    </div>
+    
+    <div class="col-8" id="columna-formulario">
+      <!-- Fila titulo boletin -->
+      <div class="div-input row">
+        <div class="col-4 columna">
+          <label for="">Titulo del boletín *</label>
+        </div>
+        <div class="col columna">
+          <input [(ngModel)]="boletin.titulo" type="text"
+            id="tituloBoletin" class="input-form" (change)="removeClass($event)"
+            (keyup)="validarLongitud($event)" maxlength="100">
+          <span class="span-obligatorio" id="spanTitulo">Campo requerido</span>
+          <span class="span-obligatorio" id="spanTituloC">Tamaño maximo 100 caracteres</span>
+        </div>
+      </div>
+      <!-- Fila rango de fechas -->
+      <div class="row">
+        <div class="col-3 div-input">
+          <div class="columna">
+            <label for="">Fecha inicial *</label>
+          </div>
+        </div>
+        <div class="divCalendar">
+          <mat-datepicker-toggle matSuffix [for]="fechaInicialBoletin"></mat-datepicker-toggle>
+        </div>
+        <div class="col columna">
+          <mat-datepicker #fechaInicialBoletin></mat-datepicker>
+          <input
+            [(ngModel)]="boletin.fechaInicio" type="text"  id="fechaInicialBoletin"
+            class="input-form" [matDatepicker]="fechaInicialBoletin" style="padding-left: 30px;"
+            (change)="removeClass($event)">
+          <span class="span-obligatorio" id="spanFechaInicialBoletin">Campo
+            requerido</span>
+        </div>
+      </div>
+      <!-- Fila Resumen -->
+      <div class="row">
+        <div class="col-4 div-input columna">
+          <label for="">Resumen *</label>
+        </div>
+        <div class="col divMensaje">
+          <textarea [(ngModel)]="boletin.resumen" id="resumen"
+            class="input-form" (change)="removeClass($event)"
+            (keyup)="validarLongitud($event)" maxlength='500'></textarea>
+          <span class="span-obligatorio" id="spanMensaje">Campo requerido</span>
+          <span class="span-obligatorio" id="spanMensajeC">Tamaño maximo 500 caracteres</span>
+        </div>
+      </div>
+      <!-- Fila URl -->
+      <div class="row" style="margin-top: 20px;">
+        <div class="col-4 div-input columna">
+          <label for="">URL de la noticia *</label>
+        </div>
+        <div class="col divMensaje">
+          <input [(ngModel)]="boletin.url" type="text" id="url" class="input-form" (keyup)="validarLongitud($event)" maxlength='500'>
+          <span class="span-obligatorio" id="spanURL">Tamaño maximo 500 caracteres</span>
+          <span class="span-obligatorio" id="spanURLC">Tamaño maximo 500 caracteres</span>
+        </div>
+      </div>
+
+      <!-- Fila contenido PUSH -->
+      <div *ngIf="enviarPUSH == true" class="row" style="margin-top: 20px;">
+        <div class="col-4 div-input columna">
+          <label for="">Contenido PUSH *</label>
+        </div>
+        <div class="col divMensaje">
+          <textarea [(ngModel)]="contenidoPush" id="inputPush"
+            class="input-form" (change)="removeClass($event)"
+            (keyup)="validarLongitud($event)" maxlength='150'></textarea>
+          <span class="span-obligatorio" id="spanInputPush">Campo requerido</span>
+          <span class="span-obligatorio" id="spanInputPushC">Tamaño maximo 150 caracteres</span>
+        </div>
+      </div>
+      <!-- Fila PUSH fechas -->
+      <div *ngIf="enviarPUSH == true" class="row">
+        <div class="col-3 div-input">
+          <div class="columna">
+            <label for="">Fecha inicial *</label>
+          </div>
+        </div>
+        <div class="divCalendar">
+          <mat-datepicker-toggle matSuffix [for]="fechaInicialPush"></mat-datepicker-toggle>
+        </div>
+        <div class="col columna">
+          <mat-datepicker #fechaInicialPush></mat-datepicker>
+          <input
+            [(ngModel)]="fechaInicio" type="text"  id="fechaInicialPush"
+            class="input-form" [matDatepicker]="fechaInicialPush" style="padding-left: 30px;"
+            (change)="removeClass($event)">
+          <span class="span-obligatorio" id="spanFechaInicialPush">Campo
+            requerido</span>
+        </div>
+      </div>
+
+      <!-- Fila PUSH fechas -->
+      <div *ngIf="enviarPUSH == true" class="row">
+        <div class="col-3 div-input">
+          <div class="columna">
+            <label for="">Fecha final *</label>
+          </div>
+        </div>
+        <div class="divCalendar">
+          <mat-datepicker-toggle matSuffix [for]="fechaFinPush"></mat-datepicker-toggle>
+        </div>
+        <div class="col columna">
+          <mat-datepicker #fechaFinPush></mat-datepicker>
+          <input
+            [(ngModel)]="fechaFin" type="text"  id="fechaFinPush"
+            class="input-form" [matDatepicker]="fechaFinPush" style="padding-left: 30px;"
+            (change)="removeClass($event)">
+          <span class="span-obligatorio" id="spanFechaFinPush">Campo
+            requerido</span>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="row" style="margin-bottom: 20px;">
+        <div class="div-botones">
+          <button id="checkPush" class="boton gris" style="width: 220px !important;" (click)="togglePUSH($event)">
+            <img id="checkPush" src="../../assets/images/{{imagenBoton}}.svg" alt="push" class="push"> Enviar push
+          </button>
+          <button class="boton azul" style="width: 200px !important;" (click)="cancelar()">Cancelar</button>
+          <button class="boton verde" style="width: 200px !important;" (click)="guardarCambios()">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-md-center" id="row-2"
+    *ngIf="currentScreenSize == 'Medium' || currentScreenSize == 'Small' || currentScreenSize == 'XSmall'">
+    <div class="col-4" id="columna-recuadro-excel">
+      <div id="recuadro-excel" class="recuadro-excel center-y center-x">
+        <img id="imagen" class="stats-logos" />
+      </div>
+      <div class="div-button center-y center-x">
+        <button class="btn-round btn-success" (click)="abirCargaArchivo($event)"> <b>Cargar archivo</b> <br>  (Extensiones
+          jpg - png) </button>
+        <input type="file" id="uploadFile" name="uploadFile" style="display: none;"
+          (change)="addFile($event.target.files)">
+        <!-- <input type="file" id="file" class="btn-round btn-success"> <b>Cargar archivos</b> <br> Formato Excel .xlsx -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="switchModal == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered " tabindex="1040">
+    <div class="modal-content" style="width: 450px; border-radius: 30px;">
+      <div class="modal-header">
+        <h3
+          class="modal-title"
+          id="exampleModalLabel"
+          style="text-align: center; width: 100%"
+        >
+          {{"Alerta"}}
+        </h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="
+        color: white;
+        background-color: white;
+        border-radius: 60px;
+        float: right;
+      "
+      (click)="cerrarModal()"
+      ></button>
+      </div>
+      <div class="modal-body">
+        <p style="text-align: center; color: black !important; padding: 20px; font-size: 25px;">{{mensajeModal}}</p>
+      </div>
+    </div>
+  </div>
+</div>

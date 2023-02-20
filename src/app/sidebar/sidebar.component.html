@@ -1,0 +1,165 @@
+<aside class="menu-navegacion" align="center">
+  <img class="btn logo-colp" routerLink="/home" src="..\assets\images\Grupo2.svg" style="margin-bottom: 20px;" />
+  <nav class="menu">
+
+    <a  class="menu-item" align="center" *ngIf="usuarioLog.colpRol.id == 1 || usuarioLog.colpRol.id == 3 ">
+      <img
+        class="btn btn-menu logo-stats dropdown-toggle"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+        src="..\assets\images\icon-administrador-contenidos.svg"
+      />
+      <p class="a-adjust" style="margin-left: 5px"><b>Administrador</b><br>de contenidos</p>
+      <div class="dropdown-menu" style="max-width: 100px">
+
+        <div class="row sub-menu">
+          <div>
+            <img routerLink="/seccionEducacion" class="img-center img-sub" src="..\assets\images\icon-educacion.svg" />
+          </div>
+          <a class="a-sub-menu" routerLink="/seccionEducacion"><b>Educación</b></a>
+        </div>
+
+        <div class="row sub-menu">
+          <div>
+            <img routerLink="/seccionBienestar" class="img-center img-sub" src="..\assets\images\icon-bienestar.svg" />
+          </div>
+          <a class="a-sub-menu" routerLink="/seccionBienestar"><b>Bienestar</b></a>
+        </div>
+
+        <div class="row sub-menu">
+          <div>
+            <img routerLink="/calificacionContenidos" class="img-center img-sub" src="..\assets\images\icon-calificacion.svg" />
+          </div>
+            <a class="a-sub-menu" routerLink="/calificacionContenidos"><b>Calificación</b><br>de contenido</a>
+        </div>
+
+        <div class="row sub-menu">
+          <div>
+            <img routerLink="/preguntasFrecuentes" class="img-center img-sub" src="..\assets\images\icon-preguntas.svg" />
+          </div>
+            <a class="a-sub-menu" routerLink="/preguntasFrecuentes"><b>Preguntas</b><br>frecuentes</a>
+        </div>
+
+        <div class="row sub-menu">
+          <div>
+            <img routerLink="/contactanos" class="img-center img-sub" src="..\assets\images\icon-contactanos.svg" />
+          </div>
+            <a class="a-sub-menu" routerLink="/contactanos"><b>Contáctanos</b></a>
+        </div>
+
+        <div class="row sub-menu">
+          <div>
+            <img routerLink="/archivoPAC" class="img-center img-sub" src="..\assets\images\archivo-pac.svg" />
+          </div>
+            <a class="a-sub-menu" routerLink="/archivoPAC"><b>Archivo PAC</b></a>
+        </div>
+
+        <div class="row sub-menu">
+          <div>
+            <img routerLink="/masInformacion" class="img-center img-sub" src="..\assets\images\icon-calificacion.svg" />
+          </div>
+            <a class="a-sub-menu" routerLink="/masInformacion"><b>Más</b><br>información</a>
+        </div>
+      </div>
+    </a>
+
+    <a *ngIf="usuarioLog.colpRol.id == 1" class="menu-item" align="center">
+      <img
+        class="btn btn-menu logo-stats dropdown-toggle"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+        src="..\assets\images\vehicle.svg"
+      />
+      <p class="a-adjust" style="margin-left: 5px"><b>Privilegios</b></p>
+      <div class="dropdown-menu" style="max-width: 100px">
+
+        <div class="row sub-menu">
+          <div>
+            <img routerLink="/users" class="img-center img-sub" src="..\assets\images\sitio-web.svg" />
+          </div>
+          <a class="a-sub-menu" routerLink="/users"><b>Administración</b><br>de usuarios</a>
+        </div>
+
+        <div class="row sub-menu">
+          <div>
+            <img routerLink="/perfilamiento" class="img-center img-sub" src="..\assets\images\group.svg" />
+          </div>
+            <a class="a-sub-menu" routerLink="/perfilamiento"><b>Perfilamiento</b><br>de tramite</a>
+        </div>
+
+      </div>
+    </a>
+
+    <a *ngIf="usuarioLog.colpRol.id == 1" class="menu-item" align="center">
+      <img
+        class="btn btn-menu logo-stats dropdown-toggle"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+        src="..\assets\images\parametros-menu.svg"
+      />
+      <p class="a-adjust" style="margin-left: 5px"><b>Parámetros</b></p>
+      <div class="dropdown-menu" style="max-width: 100px">
+
+        <div class="row sub-menu">
+          <div>
+            <img routerLink="/parametros" class="img-center img-sub" src="..\assets\images\sub-parametros.svg" />
+          </div>
+          <a class="a-sub-menu" routerLink="/parametros"><b>Parámetros</b></a>
+        </div>
+
+        <div class="row sub-menu">
+          <div>
+            <img routerLink="/mensajeIndisponibilidad" class="img-center img-sub" src="..\assets\images\bloqueo.svg" />
+          </div>
+          <a class="a-sub-menu" routerLink="/mensajeIndisponibilidad"><b>Mensaje de</b><br/>indisponibilidad</a>
+        </div>
+
+      </div>
+    </a>
+
+    <a *ngIf="usuarioLog.colpRol.id == 1 || usuarioLog.colpRol.id == 2" class="menu-item" align="center">
+      <img
+        class="btn btn-menu logo-stats dropdown-toggle"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+        src="..\assets\images\stats.svg"
+      />
+      <p class="a-adjust" style="margin-left: 5px"><b>Estadisticas</b></p>
+      <div class="dropdown-menu" style="max-width: 100px">
+        <div class="row sub-menu">
+          <div>
+            <img routerLink="/dispositivos" class="img-center img-sub" src="..\assets\images\telefono-inteligente.svg" />
+          </div>
+          <a class="a-sub-menu" routerLink="/dispositivos"><b>Sistema</b><br>Operativo</a>
+        </div>
+        <div class="row sub-menu">
+          <div>
+            <img routerLink="/uso" class="img-center img-sub" src="..\assets\images\bar-chart.svg" />
+          </div>
+          <a class="a-sub-menu" routerLink="/uso"><b>Estadistica</b><br/>de uso</a>
+        </div>
+        <div class="row sub-menu">
+          <div>
+            <img routerLink="/mapa" class="img-center img-sub" src="..\assets\images\maps.svg" />
+          </div>
+          <a class="a-sub-menu" routerLink="/mapa"><b>Mapa</b><br/>de calor</a>
+        </div>
+      </div>
+    </a>
+
+    <a *ngIf="usuarioLog.colpRol.id == 1 || usuarioLog.colpRol.id == 3" href="" class="menu-item" routerLink="/notificaciones" align="center">
+      <img class="btn btn-menu logo-stats" src="..\assets\images\smartphone.svg" />
+      <p class="a-adjust" style="margin-left: 5px"><b>Notificaciones</b></p>
+    </a>
+
+    <a *ngIf="usuarioLog.colpRol.id == 1 || usuarioLog.colpRol.id == 3 || usuarioLog.colpRol.id == 2" href="" class="menu-item" routerLink="/reportes" align="center">
+      <img class="btn btn-menu logo-stats" src="..\assets\images\icon-reportes.svg" />
+      <p class="a-adjust" style="margin-left: 5px"><b>Reportes</b></p>
+    </a>
+  </nav>
+  <!-- <img class="btn logo-colp" routerLink="/home" (click)="cerrar()" style="bottom: 15px; position: absolute;" src="..\assets\images\exit.svg" /> -->
+</aside>

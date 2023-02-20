@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="72.466" height="52.925" viewBox="0 0 72.466 52.925">
+  <defs>
+    <filter id="Rectángulo_1812" x="0" y="0" width="72.466" height="52.925" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="off" transform="translate(9 6)">
+    <g transform="matrix(1, 0, 0, 1, -9, -6)" filter="url(#Rectángulo_1812)">
+      <rect id="Rectángulo_1812-2" data-name="Rectángulo 1812" width="54.466" height="34.925" rx="17.463" transform="translate(9 6)" fill="#e0e0e0"/>
+    </g>
+    <ellipse id="Elipse_360" data-name="Elipse 360" cx="14.968" cy="14.968" rx="14.968" ry="14.968" transform="translate(2.711 3.002)" fill="#656565"/>
+  </g>
+</svg>

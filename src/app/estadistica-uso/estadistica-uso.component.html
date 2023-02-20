@@ -1,0 +1,141 @@
+<div class="row">
+  <div class="col">
+    <h1 class="tittle-stats">Estadísticas de uso por servicio</h1>
+  </div>
+</div>
+<div class="row justify-content-end" style="margin-bottom: 10px;">
+  <div class="col-2">
+    <button 
+      class="btn btn-secondary boton-abrir-filtro" 
+      type="button" 
+      (click)="abrirModalFiltro()"
+      style="margin-right: 30px;"
+      >
+      Filtros
+    </button>
+  </div>
+</div>
+<div class="row" style="justify-content: center">
+  <div class="col">
+    <table class="table-grafica-uso">
+      <thead style="height: 40px; font-size: 20px;">
+        <tr>
+          <th>Servicio</th>
+          <th>Gráfica</th>
+          <th style="width: 20%;">Cantidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of listaServicios | slice:desde:hasta;">
+          <!-- {{cambiarColor(item)}} -->
+          <td>{{item.nombre}}</td>
+          <td class="barra" style="width: 50%;">
+            <div class="test-tooltip">
+              <div id="div{{item.id}}" class="{{color}}"></div>
+              <span class="tooltip-box">{{item.cantidad}} personas</span>
+            </div>
+          </td>
+          <td>
+            <div class="end-column">
+              {{item.cantidad}} Personas
+            </div>
+          </td>
+          {{cambiarPorcentaje(item)}}
+        </tr>
+      </tbody>
+        <tfoot>
+          <tr class="ultima-fila">
+            <td></td>
+            <td>
+              <div style="height: 2px; background-color: #747474; width: 100%; margin-bottom: 10px;"></div>
+              <div class="row">
+                <div class="col" style="padding-left: 30px;">{{0}}</div>
+                <div *ngFor="let item of contadores; " class="col" style="text-align: center;">
+                  {{item}}
+                </div>
+                <div class="col" style="text-align: right; padding-right: 30px;">{{mayorPoblacion}}</div>
+              </div>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <div class="div-fecha" id="div-fecha">
+                <!-- {{fechaInicio}} - {{fechaFinal}} -->
+              </div>
+            </td>
+            <td style="padding: 20px;">
+              <button class="btn verde btn-filtros" (click)="exportExcel()">Descargar</button>
+            </td>
+          </tr>
+        </tfoot>
+    </table>
+    {{anadirFechas()}}
+    <mat-paginator 
+      [length]="listaServicios.length" 
+      [pageSize]="pageSize" 
+      (page)="cambiarPagina($event)"
+      [pageSizeOptions]="[5, 10, 25, 100]" 
+      aria-label="Select page">
+    </mat-paginator>
+  </div>
+</div>
+
+<div *ngIf="switchModalFiltro == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered modal2">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Filtros</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="switchModalFiltro = false"
+          style="color: white; background-color: white; border-radius: 60px; float: right;"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+
+            <ng-multiselect-dropdown
+            [settings]="dropdownSettings"
+            [data]="listaServiciosFiltro"
+            (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onSelectAll($event)"
+            (onDeSelect)="onItemDeSelect($event)"
+            (onDeSelectAll)="onDeSelectAll($event)"
+            ></ng-multiselect-dropdown>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input placeholder="Fecha de inicio" type="text" name="filtroFechaInicio" id="filtroFechaInicio"
+              class="filtros" [matDatepicker]="fechaInicio">
+            <mat-datepicker #fechaInicio></mat-datepicker>
+          </div>
+          <div class="col-2">
+            <mat-datepicker-toggle matSuffix [for]="fechaInicio" style="float: left;"></mat-datepicker-toggle>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input placeholder="Fecha fin" type="text" name="filtroFechaFinal" id="filtroFechaFinal" class="filtros"
+              [matDatepicker]="fechaFinal">
+            <mat-datepicker #fechaFinal></mat-datepicker>
+          </div>
+          <div class="col-2">
+            <mat-datepicker-toggle matSuffix [for]="fechaFinal" style="float: left;"></mat-datepicker-toggle>
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 20px;" *ngIf="alertaFechas == true">
+          <div class="col">
+            <p class="alerta-fechas">{{mensajeAlertaFechas}}</p>
+          </div>
+        </div>
+
+        <div class="row justify-content-center">
+          <button style="margin-right: 10px;" class="btn azul btn-filtros" (click)="limpiarFiltros()">Limpiar</button>
+          <button style="margin-left: 10px;" class="btn verde btn-filtros" (click)="filtrar()">Filtrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

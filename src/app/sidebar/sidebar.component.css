@@ -1,0 +1,138 @@
+*{
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+  "Open Sans", "Helvetica Neue", sans-serif;
+  box-sizing: border-box;
+}
+
+/* .div-menu{
+  display: flex;
+  height: 100vh;
+} */
+
+.menu-navegacion {
+  background-color: #00993E !important;
+  flex: 1 1 0;
+  max-width: 120px;
+  padding: 2rem 1rem;
+  height: 100vh;
+}
+
+@media (max-height: 800px){
+  .menu-navegacion{
+    /* height: auto; */
+    height: 180vh;
+  }
+}
+
+@media (min-height: 801px){
+  .menu-navegacion{
+    height: 110vh;
+  }
+}
+
+.menu-navegacion .menu {
+  margin: 0 -1rem;
+}
+.menu-navegacion .menu .menu-item {
+  display: block;
+  padding: 1em;
+  color: white;
+  text-decoration: none;
+  transition: 0.2s linear;
+  text-align: center;
+  margin: -20px;
+}
+
+.logo-colp {
+  height: 80px;
+  width: 80px;
+  margin: -10px 0px 30px 0px;
+}
+
+.btn-menu{
+  color: #00993e;
+  background-color: #00993e;
+}
+
+.btn-menu:hover{
+  background-color: #3f51b5;
+}
+
+.is-active{
+  background-color: #3f51b5;
+}
+
+.logo-stats{
+  width: 60px;
+  border-radius: 14px;
+  height: 60px;
+  text-align: center;
+}
+
+.a-adjust {
+  /* margin-left: 10px; */
+  font-size: 14px;
+  font-weight: normal;
+  color: white;
+  text-align: center;
+}
+
+.dropdown-menu {
+  min-width: 65px;
+  border-radius: 0px 10px 10px 0px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+  margin-left: 85px;
+  /* top: -70px !important; */
+  text-align: center;
+}
+
+@media (max-height: 800px){
+  .dropdown-menu{
+    top: 70px !important;
+  }
+}
+
+@media (min-height: 801px){
+  .dropdown-menu{
+    top: -70px !important;
+  }
+}
+
+
+.img-center{
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  height: 40px;
+  width: 40px;
+}
+
+.img-sub{
+  height: 35px !important;
+  width: 35px !important;
+}
+
+.img-center:hover{
+  cursor: pointer;
+}
+
+.sub-menu{
+  margin-top: 10px;
+}
+
+.a-sub-menu {
+  font-size: 11px;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+    "Open Sans", "Helvetica Neue", sans-serif;
+  font-weight: normal;
+  color: black;
+  margin-top: 5px;
+}
+
+
+@media (max-width: 1024px) {
+  .menu-navegacion{
+    max-width: 200px;
+  }
+}

@@ -1,0 +1,177 @@
+<!-- Boton regresaar -->
+<div class="row">
+  <div class="col-md-2">
+    <div  style="margin-bottom: 10px;     margin-left: 30px;">
+      <div class="">
+        <button style="color: #00993e;" mat-icon-button aria-label="remove"
+        (click)='atras("atras", presentacion)' >
+        <mat-icon style="font-size: 50px;">reply</mat-icon>
+        </button>  
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <h1 class="title">Yo Soy</h1>
+  </div>
+</div>
+
+<div class="row justify-content-start">
+  <div class="col-1">
+    <button style="color: #00993E;" mat-icon-button aria-label="remove"
+    (click)='cambiarPresentacion("iconos", presentacion)' >
+    <mat-icon style="font-size: 40px;">dialpad</mat-icon>
+  </button>  
+  </div>
+  <div class="col-1">
+    <button style="color: #00993E;" mat-icon-button aria-label="remove"
+    (click)='cambiarPresentacion("tabla", presentacion)' >
+    <mat-icon style="font-size: 50px">list_alt</mat-icon>
+  </button>  
+  </div>
+</div>
+
+<div class="row" *ngIf="presentacion == 'iconos'">
+  <div class="col registro">
+    <div class="div-contenedor" routerLink="../segmentacion" [queryParams]="{ opc: '0' }">
+      <mat-icon>+</mat-icon>
+    </div>
+  </div>
+  <div class="col registro" *ngFor="let item of segmentaciones, index as i, first as isFirst">
+    <div class="div-contenedor center-x center-y" (click)="abrirModal(i)">
+      <!-- <img src="..\assets\images\{{item.imagen}}" class="" alt=""> -->
+      <img class="imagen-registro" alt="" crossorigin="anonymous" 
+        src="..\assets\images\icon-cupon.svg">
+    </div>
+    <p class="textCenter nombre-registro" for="">{{item.titulo}}</p>
+    <div class="modal-dialog opciones" id="modal{{i}}">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col">
+              <div class="mitad">
+                <img src="..\assets\images\eliminar.png" alt="Eliminar" (click)="confirmacion('eliminar', item.id); abrirModal(i)"/>
+              </div>
+              <p style="text-align: center;" for="">Eliminar</p>
+            </div>
+            <div class="col">
+              <div class="mitad">
+                <img src="..\assets\images\copiar.svg" alt="Duplicar" (click)="confirmacion('duplicar', item.id); abrirModal(i)"/>
+              </div>
+              <p style="text-align: center;" for="">Duplicar</p>
+            </div>
+            <div class="col">
+              <div class="mitad">
+                <img src="..\assets\images\editar.png" alt="Editar"
+                  (click)="abrirModal(i)" routerLink="../segmentacion" [queryParams]="{ opc: item.id }"/>
+              </div>
+              <p style="text-align: center;" for="">Editar</p>
+            </div>
+            <div class="col">
+              <div class="mitad">
+                <mat-slide-toggle [checked]="item.estado == 1" (change)="cambiarEstado($event,item.id)">
+                </mat-slide-toggle>
+              </div>
+              <p style="text-align: center;" id="slideEstado-{{item.id}}" for="">{{item.estado == 0 ? "Inactivo" : "Activo"}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="presentacion == 'tabla'">
+  <div class="col">
+    <table class="table table-striped tableParametros">
+      <thead>
+        <tr class="bg-success">
+          <td class="thInicial"></td>
+          <td style="width: 300px !important;">Nombre</td>
+          <td>Eliminar</td>
+          <td>Duplicar</td>
+          <td>Editar</td>
+          <td colspan="2" class="thFinal">Activar/Inactivar</td>
+        </tr>
+      </thead>
+      <tbody id="bodyTableParametros">
+        <tr *ngFor="let item of segmentaciones | slice:desde:hasta">
+          <td class="tdInicial">
+            <img class="imagen-tabla" alt="" crossorigin="anonymous" 
+              src="..\assets\images\icon-cupon.svg">
+          </td>
+          <td>{{item.titulo}}</td>
+          <td>
+            <img src="..\assets\images\eliminar.png" alt="Eliminar" (click)="confirmacion('eliminar', item.id);"/>
+          </td>
+          <td>
+            <img src="..\assets\images\copiar.svg" alt="Duplicar" (click)="confirmacion('duplicar', item.id);"/>
+          </td>
+          <td>
+            <img src="..\assets\images\editar.png" alt="Editar"
+                routerLink="../segmentacion" [queryParams]="{ opc: item.id }"/>
+          </td>
+          <td style="align-items: flex-end; text-align: right;"> 
+            <mat-slide-toggle [checked]="item.estado == 1 ? true : false" (change)="cambiarEstado($event,item.id)">
+            </mat-slide-toggle>
+          </td>
+          <td class="tdFinal" style="align-items: flex-start; text-align: left;">
+            <p  id="slideEstado-{{item.id}}" for="">{{item.estado == 1 ? "Activo" : "Inactivo"}}</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <mat-paginator [length]="tamanoTabla" [pageSize]="pageSize" (page)="cambiarPagina($event)"
+      [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+    </mat-paginator>
+  </div>
+</div>
+<div *ngIf="presentacion == 'tabla'" class="row justify-content-end">
+  <div class="col-2 divBtnFinal">
+    <button class="boton verde btnFinal" type="button" routerLink="../segmentacion" [queryParams]="{ opc: '0' }">
+      <mat-icon style="color: white;">+</mat-icon>
+    </button>
+  </div>
+</div>
+
+
+
+<!-- modal alerta -->
+<div *ngIf="switchModalAlerta == true" class="back-modal">
+  <div class="modal-dialog modalEliminar" style="margin-top: 300px;" tabindex="1040">
+    <div class="modal-content" style="width: 450px; border-radius: 10px;">
+      <div class="modal-header" style="background-color: #fff !important; border-radius: 29px 29px 0px 29px; border-bottom: 0px; padding: 10px;">
+        <div style="width: 90%; float: left;"></div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cerrarModal(1)"
+          style="margin: 5px 5px 0 0; color: white; background-color: #00993e; border-radius: 60px; float: right;"></button>
+      </div>
+      <div class="modal-body">
+        <p style="text-align: center; color: black !important; padding: 20px; font-size: 25px;">{{mensajeModal}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="modalSwitchConfirmacion == true" class="back-modal">
+  <div class="modal-dialog modalEliminar" style="margin-top: 300px;" tabindex="1040">
+    <div class="modal-content" style="width: 450px; border-radius: 10px;">
+      <div class="modal-header" style="background-color: #fff !important; border-radius: 29px 29px 0px 29px; border-bottom: 0px; padding: 10px;">
+        <div style="width: 90%; float: left;"></div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cerrarModal(0)"
+          style="margin: 5px 5px 0 0; color: white; background-color: #00993e; border-radius: 60px; float: right;"></button>
+      </div>
+      <div class="modal-body">
+        <h5 style="text-align: center;">{{mensajeModal}}</h5>
+        <div class="row">
+          <div class="col">
+            <button type="button" class="btn azul btn-rounded" style="width: 160px; height: 50px; margin: 0px auto;"
+              (click)="confirmar()">{{textoBotonConfirmacion}}</button>
+          </div>
+          <div class="col">
+            <button type="button" class="btn verde btn-rounded" style="width: 160px; height: 50px; margin: 0px auto;"
+              data-bs-dismiss="modal" (click)="cerrarModal(0)">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

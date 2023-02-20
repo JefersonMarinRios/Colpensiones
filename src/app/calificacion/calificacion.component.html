@@ -1,0 +1,48 @@
+<br><br>
+<div class="row" style="width: 95%;">
+  <div class="col">
+    <table class="table table-striped tableParametros">
+      <thead class="bg-success">
+        <th class="tdInicial">Nombre</th>
+        <th colspan="5">Calificación</th>
+        <th class="tdFinal">Habilitar</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of estrellas | slice:desde:hasta">
+          <td class="tdInicial">{{item.nombre}}</td>
+          <td>
+            <mat-icon aria-hidden="false" aria-label="Example home icon">
+              {{item.promedio >= 1 ? 'star' : 'star_border' }}
+            </mat-icon>
+          </td>
+          <td>
+            <mat-icon aria-hidden="false" aria-label="Example home icon">
+              {{item.promedio >= 2 ? 'star' : 'star_border' }}
+            </mat-icon>
+          </td>
+          <td>
+            <mat-icon aria-hidden="false" aria-label="Example home icon">
+              {{item.promedio >= 3 ? 'star' : 'star_border' }}
+            </mat-icon>
+          </td>
+          <td>
+            <mat-icon aria-hidden="false" aria-label="Example home icon">
+              {{item.promedio >= 4 ? 'star' : 'star_border' }}
+            </mat-icon>
+          </td>
+          <td>
+            <mat-icon aria-hidden="false" aria-label="Example home icon">
+              {{item.promedio >= 5 ? 'star' : 'star_border' }}
+            </mat-icon>
+          </td>
+          <td class="tdFinal">
+            <input class="radio" type="checkbox" [checked]="item.estado == 1" (change)="cambioEstado($event, item.id)">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <mat-paginator [length]="estrellasLength" [pageSize]="pageSize" (page)="cambiarPagina($event)"
+      [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+    </mat-paginator>
+  </div>
+</div>

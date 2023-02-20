@@ -1,0 +1,170 @@
+
+<div class="container-fluid container-md container-sm" style="margin-left: 7%">
+  <div class="row">
+    <div
+      class="col registro"
+      *ngFor="let item of cupones; index as i; first as isFirst"
+    >
+      <div class="div-contenedor center-x center-y" (click)="abrirModal(i)">
+        <img src="..\assets\images\icon-cupon.svg" class="imagen-registro" alt="" />
+        <!-- <img class="imagen-registro" alt="" crossorigin="anonymous" id="imagen-{{item.id}}"> -->
+      </div>
+      <p class="textCenter" for="">{{ item.titulo }}</p>
+      <div class="modal-dialog opciones" id="modal{{ i }}">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-4" style="width: 80px">
+                <div class="mitad">
+                  <img
+                    src="..\assets\images\eliminar.png"
+                    alt="Eliminar"
+                    (click)="confirmacion('eliminar', item.id); abrirModal(i)"
+                  />
+                </div>
+                <p style="text-align: center; font-size: 10px">Eliminar</p>
+              </div>
+              <div class="col-4" style="width: 80px">
+                <div class="mitad">
+                  <img
+                    src="..\assets\images\copiar.svg"
+                    alt="Duplicar"
+                    (click)="confirmacion('duplicar', item.id); abrirModal(i)"
+                  />
+                </div>
+                <p style="text-align: center; font-size: 10px">Duplicar</p>
+              </div>
+              <!-- <div class="col">
+              <div class="mitad">
+                <img src="..\assets\images\editar.png" alt="Editar"
+                  (click)="abrirModal(i)" />
+              </div>
+              <p for="">Editar</p>
+            </div> -->
+              <div class="col-4" style="width: 80px">
+                <div class="mitad">
+                  <mat-slide-toggle
+                    [checked]="item.estado == 1"
+                    (change)="cambiarEstadoCupon($event, item.id)"
+                  >
+                  </mat-slide-toggle>
+                </div>
+                <p id="slideEstado-{{ item.id }}" style="text-align: center; font-size: 12px">
+                  {{ item.estado == 0 ? "Inactivo" : "Activo" }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="col registro">
+    <div class="div-contenedor">
+      <mat-icon>+</mat-icon>
+    </div>
+  </div> -->
+  </div>
+</div>
+
+<!-- modal alerta Confirmacion -->
+<div *ngIf="switchModalConfirmacion == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered" tabindex="1040">
+    <div class="modal-content" style="width: 450px; border-radius: 30px">
+      <div class="modal-header">
+        <h3
+          class="modal-title"
+          id="exampleModalLabel"
+          style="text-align: center; width: 100%"
+        >
+          {{ "Alerta" }}
+        </h3>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          style="
+            color: white;
+            background-color: white;
+            border-radius: 60px;
+            float: right;
+          "
+          (click)="cerrarModal(0)"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h5 style="text-align: center">{{ mensajeModal }}</h5>
+        <div class="row">
+          <div class="col">
+            <button
+              type="button"
+              class="btn azul btn-rounded"
+              style="margin-right: 5px; margin-left: 30px; "
+              (click)="confirmar()"
+            >
+              {{ textoBotonConfirmacion }}
+            </button>
+          </div>
+          <div class="col">
+            <button
+              type="button"
+              class="btn verde btn-rounded"
+              style="margin-left: 10px; margin-right: -30px"
+              data-bs-dismiss="modal"
+              (click)="cerrarModal(0)"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal alerta -->
+<div *ngIf="switchModalAlerta == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered" tabindex="1040">
+    <div class="modal-content" style="width: 450px; border-radius: 30px">
+      <div class="modal-header">
+        <h3
+          class="modal-title"
+          id="exampleModalLabel"
+          style="text-align: center; width: 100%"
+        >
+          {{ "Alerta" }}
+        </h3>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          style="
+            color: white;
+            background-color: white;
+            border-radius: 60px;
+            float: right;
+          "
+          (click)="cerrarModal(1)"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p
+          style="
+            text-align: center;
+            color: black !important;
+            padding: 20px;
+            font-size: 25px;
+          "
+        >
+          {{ mensajeModal }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

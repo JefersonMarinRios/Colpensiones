@@ -1,0 +1,201 @@
+.tittle-parametros {
+  text-align: center;
+  font-weight: bold;
+  font-size: 45px;
+  color: #00993E;
+  margin-bottom: 40px;
+}
+
+.table thead tr td {
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: bold;
+  font-size: 15px;
+  color: white;
+}
+
+.tableParametros, .table-perfiles {
+  width: 100%;
+}
+
+.thInicial {
+  border: none;
+  border-radius: 15px 0 0 15px;
+}
+
+.thFinal {
+  border: none;
+  border-radius: 0 15px 15px 0;
+}
+
+.tdInicial {
+  /* border: none;  */
+  border-radius: 15px 0 0 15px;
+}
+
+.tdFinal {
+  /* border: none;  */
+  border-radius: 0 15px 15px 0;
+}
+
+td{
+  text-align: center;
+  justify-content: center;
+}
+
+#bodyTableParametros tr td {
+  border: none;
+}
+
+#bodyTableParametros {
+  border: none;
+}
+
+#bodyTablePerfiles tr td {
+  border: none;
+}
+
+#bodyTablePerfiles {
+  border: none;
+}
+
+.tablas{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  border: none;
+  margin: none;
+}
+
+#bodyTablePerfiles tr td {
+  background-color: transparent !important;
+  /* background-color: white !important; */
+}
+
+.table-perfiles thead tr td{
+  border-radius: 0 15px 0 0;
+}
+
+.table-perfiles{
+  z-index: 500;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+}
+
+.table-perfiles td{
+  text-align: left !important;
+}
+
+.azul{
+  background-color: #3f51b5 !important;
+}
+
+.verde{
+  background-color: #00993E !important;
+}
+
+.boton{
+  border: none;
+  border-radius: 25px;
+  height: 50px;
+  width: 180px;
+  font-size: 20px;
+  font-weight: 400;
+  color: #fff;
+}
+
+.boton:focus{
+  outline: none;
+}
+
+.entrada{
+  border: none;
+  border-radius: 0px;
+  border-bottom: 1px solid black !important;
+  width: 100%;
+  padding: 10px;
+}
+
+.entrada:focus{
+  outline: none;
+}
+
+.mb-3{
+  padding: 0px 40px;
+}
+
+select{
+  background-image: url('../../assets/images/flecha-select.svg'); /*aquí deberás escribir la ruta de la imagen que utilizarás como flecha del desplegable*/
+  background-repeat: no-repeat;
+  background-position: right center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+}
+
+select::-ms-expand {
+  display: none; /*Evita que se muestre la flecha por defecto en versiones de IE*/
+}
+
+
+.back-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #0000008a;
+}
+
+.back-modal .modal-dialog {
+  opacity: 1;
+}
+
+.modal-dialog {
+  /* margin: 300px auto !important; */
+}
+
+.span-obligatorio {
+  margin-left: 15px;
+  color: red;
+  font-size: 15px;
+  display: none;
+  float: right;
+  padding-right: 20px;
+  margin-bottom: 5px;
+}
+
+.campo-vacio {
+  border: none;
+  border-bottom: 1px solid red !important;
+}
+
+.modal-header-editado {
+  background-color: #00993E !important;
+  color: #fff !important;
+  text-align: center !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 29px 29px 0px 0px !important;
+}
+
+.modal-content-editado {
+  border-radius: 30px !important;
+}
+
+.color-negro{
+  color: black !important;
+  font-weight: 500;
+}
+
+.color-verde{
+  color: #00993E !important;
+  font-weight: 500;
+}
+
+.div-botones{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

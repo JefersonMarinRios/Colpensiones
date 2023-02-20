@@ -1,0 +1,309 @@
+<mat-icon class="back" routerLink="../">reply</mat-icon>
+<br />
+<div class="container-fluid container-md container-sm">
+  <h1 class="tittle-parametros">Alianzas</h1>
+  <div class="row">
+    <div
+      class="col registro"
+      *ngFor="let item of categorias; index as i; first as isFirst"
+    >
+      <div class="div-contenedor center-x center-y" (click)="abrirModal(i)">
+        <img
+          class="imagen-registro"
+          alt=""
+          crossorigin="anonymous"
+          id="imagen-{{ item.id }}"
+        />
+      </div>
+      {{ anadirImagen(item) }}
+      <p class="textCenter nombre-registro" style="margin-bottom: 2px">
+        {{ item.nombre }}
+      </p>
+      <p class="textCenter" style="margin-top: 0px">{{ item.descripcion }}</p>
+      <div class="modal-dialog opciones" id="modal{{ i }}">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-3">
+                <div class="mitad">
+                  <img
+                    src="..\assets\images\eliminar.png"
+                    alt="Eliminar"
+                    (click)="confirmacion('eliminar', item.id); abrirModal(i)"
+                  />
+                </div>
+                <p style="text-align: center; font-size: 10px" for="">
+                  Eliminar
+                </p>
+              </div>
+              <div class="col-3">
+                <div class="mitad2">
+                  <img
+                    src="..\assets\images\Ver.svg"
+                    alt="Ver"
+                    routerLink="../cupon"
+                    [queryParams]="{ opc: item.id }"
+                  />
+                </div>
+                <p style="text-align: center; font-size: 12px">Ver</p>
+              </div>
+              <div class="col-3">
+                <div class="mitad">
+                  <img
+                    src="..\assets\images\editar.png"
+                    alt="Editar"
+                    (click)="
+                      abrirModalAccion('actualizar', item.id); abrirModal(i)
+                    "
+                  />
+                </div>
+                <p style="text-align: center; font-size: 12px">Editar</p>
+              </div>
+              <div class="col-3">
+                <div class="mitad">
+                  <mat-slide-toggle
+                    [checked]="item.estado == 1"
+                    (change)="cambiarEstado($event, item.id)"
+                  >
+                  </mat-slide-toggle>
+                </div>
+                <p
+                  id="slideEstado-{{ item.id }}"
+                  style="text-align: center; font-size: 12px"
+                >
+                  {{ item.estado == 0 ? "Inactivo" : "Activo" }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col registro">
+      <div class="div-contenedor" (click)="abrirModalAccion('guardar', null)">
+        <mat-icon>+</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div *ngIf="modalSwitch == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3
+          class="modal-title"
+          id="exampleModalLabel"
+          style="text-align: center; width: 100%"
+        >
+          {{ tituloModal }}
+        </h3>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          style="
+            color: white;
+            background-color: white;
+            border-radius: 60px;
+            float: right;
+          "
+          (click)="recargar()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-6 padding-left-50">
+            <div class="recuadro-excel center-y center-x" id="recuadro-excel">
+              <img
+                id="imagen-recuadro-excel"
+                class="stats-logos"
+                src="..\assets\images\archivopac.png"
+              />
+              {{ accion == "actualizar" ? anadirImagenModal(categoria) : "" }}
+            </div>
+            <div class="div-button center-y center-x">
+              <button class="btn-round btn-success" (click)="abrirCarga()">
+                <b>Cargar archivos</b> <br />
+                Formatos permitidos .png .jpg .svg
+              </button>
+              <span class="span-obligatorio" id="spanImagen"
+                >Carga de imagen requerida</span
+              >
+              <input
+                accept="image/*"
+                type="file"
+                id="cargaImagen"
+                name="cargaImagen"
+                style="display: none"
+                (change)="addFile($event.target.files)"
+              />
+            </div>
+          </div>
+          <div class="col-6" style="width: 1000px">
+            <div class="row input center-x" style="margin-top: 10px !important">
+              <div class="col columna-tipo">
+                <p style="text-align: left">Nombre de la alianza*</p>
+              </div>
+              <div class="col columna-texto">
+                <div class="row">
+                  <div class="col flex-box center-y center-x">
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="categoria.nombre"
+                      value="{{ categoria.nombre }}"
+                      id="nombre"
+                      (keyup)="removeClass($event)"(keyup)="validarLongitud($event)"
+                    />
+                    <!-- placeholder="Escribe el nombre de la red social aquí" -->
+                  </div>
+                  <span class="span-obligatorio" id="spanNombreC">maximo 50 caracteres</span>
+                  <span class="span-obligatorio" id="spanNombre">Campo requerido</span>
+                </div>
+              </div>
+            </div>
+            <div class="row input center-x">
+              <div class="col columna-tipo">
+                <p style="text-align: left">Descripción*</p>
+              </div>
+              <div class="col columna-texto">
+                <div class="row">
+                  <div class="col flex-box center-y center-x">
+                    <textarea
+                      id="descripcion"
+                      name="descripcion"
+                      class="form-control"
+                      [(ngModel)]="categoria.descripcion"
+                      (keyup)="removeClass($event)"(keyup)="validarLongitud($event)"
+                      >{{ categoria.descripcion }}
+                    </textarea>
+                    <!-- placeholder="Escribe la URL de la red social aquí" -->
+                  </div>
+                  <span class="span-obligatorio" id="spanDescripcionC">maximo 500 caracteres</span>
+                  <span class="span-obligatorio" id="spanDescripcion">Campo requerido</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <button
+                  type="button"
+                  class="btn azul btn-rounded"
+                  data-bs-dismiss="modal"
+                  (click)="confirmacion('cancelar')"
+                >
+                  Cancelar
+                </button>
+              </div>
+              <div class="col-6">
+                <button
+                  type="button"
+                  class="btn verde btn-rounded"
+                  (click)="guardarCambios()"
+                >
+                  Guardar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal alerta -->
+<div *ngIf="switchModalAlerta == true" class="back-modal">
+  <div
+    class="modal-dialog modal-dialog-centered" tabindex="1040">
+    <div class="modal-content" style="width: 450px; border-radius: 30px">
+      <div class="modal-header">
+        <h3
+        class="modal-title"
+        id="exampleModalLabel"
+        style="text-align: center; width: 100%"
+      >
+        {{ "Alerta" }}
+      </h3>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close" style="
+          color: white;
+          background-color: white;
+          border-radius: 60px;
+          float: right;
+        "
+          (click)="cerrarModal(1)"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p
+          style="
+            text-align: center;
+            color: black !important;
+            padding: 20px;
+            font-size: 25px;
+          "
+        >
+          {{ mensajeModal }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="modalSwitchConfirmacion == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered" tabindex="1040">
+    <div class="modal-content" style="width: 450px; border-radius: 30px">
+      <div class="modal-header">
+        <h3
+          class="modal-title"
+          id="exampleModalLabel"
+          style="text-align: center; width: 100%"
+        >
+          {{ "Alerta" }}
+        </h3>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          style="
+            color: white;
+            background-color: white;
+            border-radius: 60px;
+            float: right;
+          "
+          (click)="cerrarModal(0)"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h5 style="text-align: center">{{ mensajeModal }}</h5>
+        <div class="row justify-content-center" style="margin-bottom: 10px">
+          <button
+            type="button"
+            class="btn azul btn-rounded"
+            style="margin-right: 10px; margin-left: -50px; "
+            (click)="confirmar()"
+          >
+            {{ textoBotonConfirmacion }}
+          </button>
+          <button
+            type="button"
+            class="btn verde btn-rounded"
+            style="margin-left: 10px; margin-right: -30px"
+            data-bs-dismiss="modal"
+            (click)="cerrarModal(0)"
+          >
+            No
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <div class="input-group mb-3">
+        <input 
+          type="text" class="form-control" 
+          aria-label="Titulo alerta" id="inputTitulo" 
+          [(ngModel)]="mensaje.titulo" value="{{mensaje.titulo}}"
+          (keyup)="validarLongitud($event)"
+          >
+        <span class="input-group-text">
+          <mat-icon matSuffix>edit</mat-icon>
+        </span>
+      </div>
+      <span class="span-obligatorio" id="spanTitulo"></span>
+      <div class="testeo row">
+        <div style="width: 94%;">
+          <textarea matInput id="inputMensaje" [(ngModel)]="mensaje.mensaje" (keyup)="validarLongitud($event)"> {{mensaje.mensaje}} </textarea>
+        </div>
+        <div style="width: 5%;" class="justify-content-center">
+          <mat-icon matSuffix>edit</mat-icon>
+        </div>
+      </div>
+      <span class="span-obligatorio" id="spanMensaje"></span>
+      <div class="row justify-content-center grupo-botones">
+        <div class="col-4 justify-content-center">
+          <button class="btn-round azul btn-block" (click)="cancelar()">Cancelar</button>
+        </div>
+        <div class="col-4 justify-content-center">
+          <button class="btn-round verde btn-block" (click)="envioFormulario()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal alerta -->
+<!-- <div *ngIf="switchModalAlerta == true" class="back-modal">
+  <div class="modal-dialog modalEliminar" style="margin-top: 300px;" tabindex="1040">
+    <div class="modal-content" style="width: 450px; border-radius: 10px;">
+      <div class="modal-header" style="background-color: #fff !important; border-radius: 29px 29px 0px 29px; border-bottom: 0px; padding: 10px;">
+        <div style="width: 90%; float: left;"></div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cerrarModal(1)"
+          style="margin: 5px 5px 0 0; color: white; background-color: #00993e; border-radius: 60px; float: right;"></button>
+      </div>
+      <div class="modal-body">
+        <p style="text-align: center; color: black !important; padding: 20px; font-size: 25px;">{{mensajeModal}}</p>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- modal alerta -->
+<div *ngIf="switchModalAlerta == true" class="back-modal">
+  <div class="modal-dialog">
+    <div class="modal-content modal-content-editado">
+      <div class="modal-header modal-header-editado">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-size: 30px !important;">Alerta</h5>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <h5 style="
+            text-align: center;   
+            font-size: 30px;
+            font-weight: 400;
+            margin: 30px 0;
+            "
+          >{{mensajeModal}}</h5>
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <div class="col div-botones">
+            <button type="button" class="boton azul" style="width: 130px !important;" (click)="cerrarModal(1)">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

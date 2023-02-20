@@ -1,0 +1,48 @@
+<div mat-dialog-content class="p-20 m-0 font" style="width: 100%; height: 657px;">
+  <img class="fondo-colpensiones" src="..\assets\images\fondo_admin.png" alt="">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title style="margin-left: 95px;">
+        <img class="title-colpensiones" src="..\assets\images\p_administrador.png" alt="" />
+      </mat-card-title>
+    </mat-card-header>
+    <div class="form" fxLayoutAlign="center center">
+      <form [formGroup]="formulario">
+        <p class="text-usuario" style="text-align: left;">Usuario*</p>
+        <p>
+          <mat-form-field class="input-usuario" appearance="outline">
+            <input matInput [(ngModel)]="testRecuerdame.usuario" id="usuario" formControlName="usuario" placeholder=""
+              required>
+          </mat-form-field>
+          <label class="lbl-correo">@colpensiones.gov.co</label>
+        </p>
+        <div class="row">
+          <p class="text-password">Contraseña*</p>
+          <div class="col-12 p-password">
+            <mat-form-field class="input-password" appearance="outline" style="
+          border-top-width: 0px;">
+              <input matInput [(ngModel)]="testRecuerdame.password" id="entradaContrasena"
+                formControlName="entradaContrasena" placeholder="" [type]="'password'" required>
+              <!-- <input matInput [(ngModel)]="testRecuerdame.password" name="password" formControlName="password" placeholder="" [type]="hide ? 'password' : 'text'" required> -->
+              <!-- <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon> -->
+            </mat-form-field>
+          </div>
+        </div>
+        <input class="r-check" type="checkbox" [checked]="testRecuerdame.checked" id="recuerdame" name="recuerdame"
+          style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;" />
+        Recuérdame
+        <!-- (click)="cambiarCheck()" -->
+      </form>
+    </div>
+    <div class="col-12">
+      <!-- <div class="button-login "> -->
+      <div class="div-botones">
+        <button [disabled]="formulario.invalid" class="boton verde"
+          (click)="login(formulario)">Ingresar</button>
+      </div>
+    </div>
+    <div>
+      <img class="logo-colpensiones" src="..\assets\images\logo_colpensiones.svg" alt="" />
+    </div>
+  </mat-card>
+</div>

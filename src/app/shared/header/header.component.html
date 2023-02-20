@@ -1,0 +1,53 @@
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
+<div class="row">
+  <div class="col">
+    <img class="logo-admin" src="..\assets\images\logo_admin.png">
+    <div class="row" style="margin-left: 40px;">
+      <div class="col-2" style="min-width: max-content;">
+        <p class="p-user" style="margin-bottom: 0px;"><b>Bienvenid@</b> {{ usuarioLog.nombre }}</p>
+      </div>
+    </div>
+    <div class="row" style="margin-left: 45px;">
+      <!-- <b class="p-user" style="color: #3f51b5 !important;">Versión app: ???</b>  -->
+      <b class="p-user" style="color: #919191 !important;">Versión app: 1.0.0</b> 
+    </div>
+  </div>
+  <div class="col">
+    <img class="btn btn-header logo-cerrar" style="float: right; margin-right: 55px;" (click)="abrirModal()" src="..\assets\images\exit.svg">
+  </div>
+</div>
+
+
+<!-- modal acciones -->
+<div *ngIf="switchModal == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Cerrar sesion</h5>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <h5 style="text-align: center;">¿Estás seguro de cerrar sesión?</h5>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <!-- <div class="col div-botones"> -->
+          <div class="col ">
+            <button type="button" class="boton azul" style="float: right;" (click)="cerrarModal()">Cancelar</button>
+          </div>
+          <!-- <div class="col div-botones"> -->
+          <div class="col ">
+            <button type="button" class="boton verde" style="float: left;" (click)="cerrar()">Cerrar sesion</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

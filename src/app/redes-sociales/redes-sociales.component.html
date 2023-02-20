@@ -1,0 +1,218 @@
+<mat-icon class="back" routerLink="../">reply</mat-icon>
+<br>
+<div class=" container-fluid container-md container-sm">
+  <h1 class="tittle-parametros">Redes sociales</h1>
+
+  <div class="row">
+    <div class="col registro" *ngFor="let item of redesSociales; index as i; first as isFirst">
+      <div class="div-contenedor center-x center-y" id="contenedor-{{item.id}}" (click)="abrirModal(item.id)">
+        <img class="" alt="" crossorigin="anonymous" id="imagen-{{ item.id }}" />
+      </div>
+      {{ anadirImagen(item) }}
+      <div class="col style= height: auto; word-wrap: break-word;">
+        <p style="width: 50% !important;" class="textCenter" for="">{{ item.nombre }}</p>
+      </div>
+
+      <div class="modal-dialog opciones" id="modal{{ item.id }}">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col" style="max-width: 30% !important;">
+                <div class="mitad">
+                  <img src="..\assets\images\eliminar.png" alt="Eliminar" (click)="confirmacionEliminar(item.id)" />
+                </div>
+                <label for="">Eliminar</label>
+              </div>
+              <div class="col" style="max-width: 30% !important;">
+                <div class="mitad">
+                  <img src="..\assets\images\editar.png" alt="Editar" (click)="
+                    abrirModalAccion('actualizar', item.id); abrirModal(item.id)
+                  " />
+                </div>
+                <label for="">Editar</label>
+              </div>
+              <div class="col" style="max-width: 30% !important;">
+                <div class="mitad">
+                  <mat-slide-toggle [checked]="item.estado == 1" (change)="cambiarEstado($event, item.id)">
+                  </mat-slide-toggle>
+                </div>
+                <label id="slideEstado-{{ item.id }}" for="">{{
+                  item.estado == 0 ? "Deshabilitado" : "Habilitado"
+                  }}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col registro" *ngIf="redesSociales.length < 6">
+      <div class="div-contenedor" (click)="abrirModalAccion('guardar', null)"
+        style="justify-content: center !important;">
+        <mat-icon>+</mat-icon>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal Formulario -->
+  <div *ngIf="modalSwitch == true" class="back-modal">
+    <div class="modal-dialog  modal-dialog-centered modal2 " tabindex="1040">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title col-11 text-center" id="exampleModalLabel">{{ tituloModal }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cerrarModal(0) "
+            style="color: white; background-color: white; border-radius: 60px; float: right;"></button>
+        </div>
+
+        <div class="modal-body">
+          <div clas="container-fluid">
+            <div class="row">
+              <div class="col-4">
+                <!-- padding-left-50 -->
+                <div class="flex-box center-x" style="width: 100%;">
+                  <div class="recuadro-excel center-y center-x" id="recuadro-excel">
+                    <img id="imagen-recuadro-excel" class="stats-logos" src="..\assets\images\archivopac.png" />
+                  </div>
+                </div>
+                <span class="span-obligatorio" id="spanImagen" style="width: 100%;text-align: center;">Carga de imagen
+                  requerida</span>
+                <div class="flex-box center-x" style="width: 100%;">
+                  <button class="btn-round verde" (click)="abrirCarga()">
+                    <b>Cargar imagen</b> <br />
+                    Formatos permitidos <br />
+                    .png .jpg .svg
+                  </button>
+                  <input type="file" accept=".png, .jpg, .svg" id="cargaImagen" style="display: none"
+                    (change)="addFile($event.target.files)" />
+                </div>
+              </div>
+              <div class="col" style="width: 1500px">
+                <div class="row input center-x" style="margin-top: 10px !important">
+                  <div class="col columna-tipo">
+                    <p style="text-align: center">Nombre red social*</p>
+                  </div>
+                  <div class="col columna-texto">
+                    <div class="row">
+                      <div class="col flex-box center-y center-x">
+                        <input type="text" style="color: black" class="form-control" [(ngModel)]="this.redSocial.nombre"
+                          value="{{ this.redSocial.nombre }}" id="nombre" (keyup)="removeClass($event)"
+                          (keyup)="validarLongitud($event)" maxlength="500" />
+                      </div>
+                    </div>
+                    <span class="span-obligatorio" id="spanNombre">Campo requerido</span>
+                    <span class="span-obligatorio" id="spanNombreC">Tamaño maximo 500 caracteres</span>
+                  </div>
+                </div>
+                <div class="row input center-x">
+                  <div class="col columna-tipo">
+                    <p style="text-align: center">Url*</p>
+                  </div>
+                  <div class="col columna-texto">
+                    <div class="row">
+                      <div class="col flex-box center-y center-x">
+                        <textarea style="color: black" id="url" class="form-control" [(ngModel)]="this.redSocial.url"
+                          (keyup)="removeClass($event)" (keyup)="validarLongitud($event)" maxlength="1000">{{ this.redSocial.url }}
+                      </textarea>
+                      </div>
+                    </div>
+                    <span class="span-obligatorio" id="spanURL">Campo requerido</span>
+                    <span class="span-obligatorio" id="spanURLC">Tamaño maximo 1000 caracteres</span>
+                    <span class="span-obligatorio" id="spanURLValid">URL no valida</span>
+                  </div>
+                </div>
+                <div class="row input center-x">
+                  <div class="col columna-tipo">
+                    <p style="text-align: center">Información adicional</p>
+                  </div>
+                  <div class="col columna-texto">
+                    <div class="row">
+                      <div class="col flex-box center-y center-x">
+                        <textarea style="color: black" id="descripcion" name="descripcion" class="form-control"
+                          [(ngModel)]="this.redSocial.descripcion" (keyup)="removeClass($event)"
+                          (keyup)="validarLongitud($event)" maxlength="200">{{ this.redSocial.descripcion }}</textarea>
+                      </div>
+                      <span class="span-obligatorio" id="spanDescripcion">Campo requerido</span>
+                      <span class="span-obligatorio" id="spanDescripcionC">Tamaño maximo 200 caracteres</span>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col columna-tipo center-x">
+                    <button type="button" class="btn azul btn-rounded" data-bs-dismiss="modal" (click)="cerrarModal(0)">
+                      Cancelar
+                    </button>
+                  </div>
+                  <div class="col columna-tipo center-x">
+                    <button type="button" class="btn verde btn-rounded" (click)="guardarCambios()">
+                      Guardar cambios
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- confirmación -->
+  <div *ngIf="modalSwitchConfirmacion == true" class="back-modal">
+    <div class="modal-dialog  modal-dialog-centered" tabindex="1040">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Alerta</h5>
+          <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="cerrarModalConfirmacion()"
+          style="color: white; background-color: white; border-radius: 60px; float: right;"></button> -->
+        </div>
+        <div class="modal-body">
+          <h5 style="text-align: center">
+            ¿Está seguro que quiere eliminar el enlace?
+          </h5>
+          <div class="row" style="max-width: none">
+            <div class="col">
+              <!--style="width: 250px !important"-->
+              <button type="button" class="btn azul boton-confirma" style="float: right;" (click)="eliminar()">
+                Eliminar
+              </button>
+            </div>
+            <div class="col">
+              <!--style="width: 200px !important"-->
+              <button type="button" class="btn verde boton-confirma" style="float: left;" data-bs-dismiss="modal"
+                (click)="cerrarModalConfirmacion()">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- modal alerta -->
+  <div *ngIf="switchModalAlerta == true" class="back-modal">
+    <div class="modal-dialog modal-dialog-centered modal2">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Alerta</h5>
+        </div>
+        <div class="modal-body">
+          <div class="">
+            <h5 style="text-align: center">{{ mensajeModal }}</h5>
+          </div>
+          <div class="" style="margin-top: 10px">
+            <div class="col div-botones">
+              <button type="button" class="boton azul" style="width: 130px !important" (click)="cerrarModal(1)">
+                Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

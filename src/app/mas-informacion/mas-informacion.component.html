@@ -1,0 +1,252 @@
+<div class=" container-fluid container-md container-sm">
+  <h1 class="tittle-parametros">Más información</h1>
+
+  <div class="row">
+    <div class="col registro" *ngFor="let item of listaCategorias; index as i; first as isFirst">
+      <div class="div-contenedor center-x center-y" id="contenedor-{{item.id}}" (click)="abrirModal(item.id)">
+        <img class="" alt="" crossorigin="anonymous" id="imagen-{{ item.id }}" />
+      </div>
+      {{ anadirImagen(item) }}
+      <div class="col style= height: auto; word-wrap: break-word;">
+        <p style="width: 50% !important;" class="textCenter" for="">{{ item.nombre }}</p>
+      </div>
+
+      <div class="modal-dialog opciones" id="modal{{ item.id }}">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col" style="max-width: 30% !important;">
+                <div class="mitad">
+                  <img src="..\assets\images\eliminar.png" alt="Eliminar" (click)="confirmacionEliminar(item.id)" />
+                </div>
+                <label for="">Eliminar</label>
+              </div>
+              <div class="col" style="max-width: 30% !important;">
+                <div class="mitad">
+                  <img src="..\assets\images\editar.png" alt="Editar" (click)="
+                    abrirModalAccion('actualizar', item.id); abrirModal(item.id)
+                  " />
+                </div>
+                <label for="">Editar</label>
+              </div>
+              <div class="col" style="max-width: 30% !important;">
+                <div class="mitad">
+                  <img src="..\assets\images\editar.png" alt="Editar" (click)="abrirModal(item.id)" routerLink="sub" [queryParams]="{ opc: item.id }" />
+                </div>
+                <label for="">Ver</label>
+              </div>
+              <div class="col" style="max-width: 30% !important;">
+                <div class="mitad">
+                  <mat-slide-toggle [checked]="item.estado == 1" (change)="cambiarEstado($event, item.id)">
+                  </mat-slide-toggle>
+                </div>
+                <label id="slideEstado-{{ item.id }}" for="">{{
+                  item.estado == 0 ? "Deshabilitado" : "Habilitado"
+                  }}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col registro" *ngIf="listaCategorias.length < 6">
+      <div class="div-contenedor" (click)="abrirModalAccion('guardar', null)"
+        style="justify-content: center !important;">
+        <mat-icon>+</mat-icon>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal Formulario -->
+  <div *ngIf="modalSwitch == true" class="back-modal">
+    <div class="modal-dialog  modal-dialog-centered modal2 " tabindex="1040">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title col-11 text-center" id="exampleModalLabel">{{ tituloModal }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cerrarModal(0) "
+            style="color: white; background-color: white; border-radius: 60px; float: right;"></button>
+        </div>
+
+        <div class="modal-body">
+          <div clas="container-fluid">
+            <div class="row">
+              <div class="col-4">
+                <div class="flex-box center-x" style="width: 100%;">
+                  <div class="recuadro-excel center-y center-x" id="recuadro-excel">
+                    <img id="imagen-recuadro-excel" class="stats-logos" src="..\assets\images\archivopac.png" />
+                  </div>
+                </div>
+                <span class="span-obligatorio" id="spanImagen" style="width: 100%;text-align: center;">Carga de imagen
+                  requerida</span>
+                <div class="flex-box center-x" style="width: 100%;">
+                  <button class="btn-round verde" (click)="abrirCarga()">
+                    <b>Cargar imagen</b> <br />
+                    Formatos permitidos <br />
+                    .png - .jpg
+                  </button>
+                  <input type="file" accept=".png, .jpg, .svg" id="cargaImagen" style="display: none"
+                    (change)="addFile($event.target.files)" />
+                </div>
+              </div>
+              <div class="col" style="width: 1500px">
+                <div class="row input center-x" style="margin-top: 10px !important">
+                  <div class="col columna-tipo">
+                    <p style="text-align: center">Titulo *</p>
+                  </div>
+                  <div class="col columna-texto">
+                    <div class="row">
+                      <div class="col flex-box center-y center-x">
+                        <input type="text" style="color: black" class="form-control" [(ngModel)]="categoria.nombre"
+                          value="{{ categoria.nombre }}" id="nombre" (keyup)="removeClass($event)"
+                          (keyup)="validarLongitud($event)" maxlength="50" />
+                      </div>
+                    </div>
+                    <span class="span-obligatorio" id="spanNombre">Campo requerido</span>
+                    <span class="span-obligatorio" id="spanNombreC">Tamaño maximo 500 caracteres</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <mat-radio-group (change)="cambiarTipo($event)" [(ngModel)]="categoria.tipo">
+                    <mat-radio-button [checked]="categoria.tipo == 1" [value]="1">Opción 1</mat-radio-button>
+                    <mat-radio-button [checked]="categoria.tipo == 2" [value]="2">Opción 2</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+                <div class="row">
+                  imagen
+                </div>
+
+                <!-- push -->
+                
+                <!-- Fila contenido PUSH -->
+                <div *ngIf="enviarPUSH == true" class="row input center-x" style="margin-top: 10px !important;">
+                  <div class="col columna-tipo">
+                    <p style="text-align: center">Contenido PUSH *</p>
+                  </div>
+                  <div class="col columna-texto">
+                    <div class="row">
+                      <div class="col flex-box center-y center-x">
+                          <textarea [(ngModel)]="contenidoPush" id="inputPush"
+                            class="form-control" (change)="removeClass($event) " style="color: black;"
+                            (keyup)="validarLongitud($event)" maxlength='150'></textarea>
+                      </div>
+                    </div>
+                    <span class="span-obligatorio" id="spanInputPush">Campo requerido</span>
+                    <span class="span-obligatorio" id="spanInputPushC">Tamaño maximo 500 caracteres</span>
+                  </div>
+                </div>
+
+                <!-- Fila PUSH fechas -->
+                <div *ngIf="enviarPUSH == true" class="row input center-x" style="margin-top: 10px !important;">
+                  <div class="col-3 columna-tipo">
+                    <div class="columna">
+                      <p style="text-align: center; border-radius: 25px 25px 25px 25px">Fecha final *</p>
+                    </div>
+                  </div>
+                  <div class="col-2 divCalendar">
+                    <mat-datepicker-toggle matSuffix [for]="fechaFinalPush"></mat-datepicker-toggle>
+                  </div>
+                  <div class="col columna-texto" style="width: 295px;">
+                    <div class="row">
+                      <div class="col flex-box center-y center-x">
+                        <mat-datepicker #fechaFinalPush></mat-datepicker>
+                        <input
+                          [(ngModel)]="fechaFin" type="text" 
+                          id="fechaFinalPush"
+                          class="form-control" 
+                          [matDatepicker]="fechaFinalPush" 
+                          style="padding-left: 30px; color: black;"
+                          (change)="removeClass($event)"
+                          >
+                        <span class="span-obligatorio" id="spanFechaFinalPush" style="padding-right: 0px; float: left;">Campo
+                          requerido</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col center-x">
+                    <button type="button" class="btn btn-rounded gris push" 
+                    style="height: 70px; width: 200px;" (click)="togglePUSH($event)">
+                      <img id="checkPush" src="../../assets/images/{{imagenBoton}}.svg" alt=""> Enviar push
+                    </button>
+                  </div>
+                  <div class="col center-x">
+                    <button type="button" class="btn azul btn-rounded" data-bs-dismiss="modal" (click)="cerrarModal(0)">
+                      Cancelar
+                    </button>
+                  </div>
+                  <div class="col center-x">
+                    <button type="button" class="btn verde btn-rounded" (click)="guardarCambios()" >Guardar cambios </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <!-- confirmación -->
+  <div *ngIf="modalSwitchConfirmacion == true" class="back-modal">
+    <div class="modal-dialog  modal-dialog-centered" tabindex="1040">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Alerta</h5>
+        </div>
+        <div class="modal-body">
+          <h5 style="text-align: center">
+            ¿Está seguro que quiere eliminar el enlace?
+          </h5>
+          <div class="row" style="max-width: none">
+            <div class="col">
+              <!--style="width: 250px !important"-->
+              <button type="button" class="btn azul boton-confirma" style="float: right;" (click)="eliminar()">
+                Eliminar
+              </button>
+            </div>
+            <div class="col">
+              <!--style="width: 200px !important"-->
+              <button type="button" class="btn verde boton-confirma" style="float: left;" data-bs-dismiss="modal"
+                (click)="cerrarModalConfirmacion()">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- modal alerta -->
+  <div *ngIf="switchModalAlerta == true" class="back-modal">
+    <div class="modal-dialog modal-dialog-centered modal2">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Alerta</h5>
+        </div>
+        <div class="modal-body">
+          <div class="">
+            <h5 style="text-align: center">{{ mensajeModal }}</h5>
+          </div>
+          <div class="" style="margin-top: 10px">
+            <div class="col div-botones">
+              <button type="button" class="boton azul" style="width: 130px !important" (click)="cerrarModal(1)">
+                Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

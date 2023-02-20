@@ -1,0 +1,198 @@
+.row{
+    width: 95% !important;
+  }
+  
+  .div-mensaje{
+    padding-top: 50px;
+  }
+  
+
+  .push{
+    height: 50px;
+    width: 50px;
+    margin: -5px 0px 0px 0px;
+  }
+  
+  .modal-header {
+    background-color: #00993E !important;
+    color: #fff !important;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 29px 29px 0px 0px;
+  }
+
+  .div-mensaje .col, .col-4{
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  
+  .div-mensaje .col p{
+    background-color: #f6f6f6;
+    border-radius: 25px 0px 0px 25px;
+    padding-top: 10px;
+    padding-right: 30px;
+    height: 40px;
+    width: 300px;
+    text-align: right;
+    float: right;
+  }
+  
+  .div-mensaje .col textarea {
+    border:  1px gray solid;
+    border-radius: 0px 20px 20px 20px;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+    height: 300px;
+    width: 400px;
+    padding: 20px;
+  }
+  
+  .div-mensaje .col textarea:focus {
+    outline:none;
+  }
+  
+  .div-push .col textarea{
+    height: 200px;
+  }
+  
+  .inputFechas{
+    border:  1px gray solid;
+    border-radius: 0px 20px 20px 0px;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+    height: 40px;
+    padding: 20px;
+    width: 100%;
+  }
+  
+  .inputFechas:focus{
+    outline: none;
+  }
+  
+  mat-datepicker-toggle{
+    color: #00993e;
+  }
+  
+  /* Divicion botones */
+  .div-botones{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+  }
+  
+  .boton{
+    border: none;
+    border-radius: 25px;
+    text-align: center;
+    height: 52px;
+    color: white;
+    font-weight: 500;
+    font-size: 18px;
+    padding: 10px 20px;
+    margin: 0 10px;
+  }
+  
+  .descarga p{
+    font-weight: 100;
+  }
+  
+  .verde{
+    background-color: #00993e;
+  }
+  
+  .gris{
+    background-color: #656565;
+  }
+  
+  .azul{
+    background-color: #3f51b5;
+  }
+  
+  /* fondo gris */
+  .back-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #0000008a;
+  }
+  
+  .back-modal .modal-dialog {
+    opacity: 1;
+  }
+
+  /* Recuadro carga de archivos */
+.recuadro-excel {
+  border: none;
+  height: 200px;
+  width: 150px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+  display: flex;
+  align-items: start;
+  margin-left: 12%;
+  margin-top: 10%;
+}
+
+/* Imagen recuadro excel */
+.recuadro-excel img {
+  width: 50%;
+  height: 50%;
+}
+
+/* Centrar horizontalmente */
+.center-x {
+  justify-content: center !important;
+  /* Padre debe tener display: flex; y align-items: start; */
+}
+
+/* Centrar verticalmente */
+.center-y {
+  align-items: center !important;
+  /* Padre debe tener display: flex; y align-items: start; */
+}
+  
+/* Botones */
+.div-button {
+  border: none;
+  width: 300px;
+  display: flex;
+  align-items: start;
+  margin-top: 20px;
+}
+
+.btn-round {
+  margin-left: -60px;
+  border: none;
+  height: 60px;
+  width: 280px;
+  border-radius: 25px 25px 25px 25px;
+  padding: 10px;
+  color: white;
+  font-size: 15px;
+  /* font-weight: 700; */
+}
+
+.btn-rounded {
+  width: 200px;
+  height: 60px;
+  border-radius: 25px 25px 25px 25px;
+  ;
+}
+
+.span-obligatorio {
+  margin-left: 15px;
+  color: red;
+  font-size: 15px;
+  display: none;
+  float: right;
+  padding-right: 20px;
+  margin-bottom: 5px;
+}
+
+
+.campo-vacio {
+  border: 1px solid red !important;
+}

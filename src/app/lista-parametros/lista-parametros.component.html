@@ -1,0 +1,179 @@
+<div class="row">
+  <div class="col">
+    <h1 class="tittle-parametros">Parámetros</h1>
+  </div>
+</div>
+
+<div class="row justify-content-end" style="margin: 0px 10px 10px 0px;">
+  <div class="col-2">
+    <button class="btn btn-secondary boton-abrir-filtro" type="button" (click)="abrirModalFiltro()">
+      Filtros
+    </button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col" style="overflow-x: scroll;max-width: 99%;">
+    <!-- <table class="table table-sm align-middle table-striped "> <!-- table table-striped tableParametros  -->
+    <table class="table table-striped tableParametros " style="width: 110% !important;">
+      <thead>
+        <tr class="bg-success">
+          <td style="max-width: 20% !important;" class="thInicial">Nombre</td>
+          <td style="max-width: 30% !important; width: 10%;">Valor</td>
+          <td style="max-width: 30% !important; width: 10%;">Descripción</td>
+          <td style="max-width: 15% !important;">Estado</td>
+          <td style="max-width: 5% !important;" class="thFinal">Editar</td>
+        </tr>
+      </thead>
+      <tbody id="bodyTableParametros">
+        <tr *ngFor="let elemento of parametro_test | slice:desde:hasta">
+          <td style="max-width: 20% !important; height: auto; word-wrap: break-word;" class="tdInicial center">
+            {{elemento.nombre}}</td>
+          <td style="/*max-width: 10% !important;*/ width: 10%; height: auto; word-wrap: break-word;" class="center">{{elemento.valor}}
+          </td>
+          <td style="/*max-width: 10% !important;*/ width: 10% !important; height: auto; word-wrap: break-word;" class="center">
+            {{elemento.descripcion}}</td>
+          <td style="max-width: 15% !important; height: auto; word-wrap: break-word;" class="center">{{elemento.estado
+            == 1 ? 'Habilitado' : 'Deshabilitado'}}</td>
+          <td style="max-width: 5% !important; height: auto; word-wrap: break-word;" class="tdFinal">
+            <button style="color: #00993E;" mat-icon-button aria-label="remove"
+              (click)='formulario("editar", elemento.id)'>
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <mat-paginator [length]="parametro_test.length" [pageSize]="pageSize" (page)="cambiarPagina($event)"
+    [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+  </mat-paginator>
+</div>
+<div class="row justify-content-end">
+  <div class="col-2 divBtnFinal">
+    <button class="boton azul btnFinal" type="button" (click)='formulario("agregar", 0)'>Agregar</button>
+  </div>
+  <div class="col-2 divBtnFinal">
+    <button class="boton verde btnFinal" (click)="exportExcel()">Descargar</button>
+  </div>
+</div>
+<br>
+
+
+
+<!-- Modal acciones-->
+<div *ngIf="switchModal == true" class="back-modal">
+  <div class="modal-dialog  modal-dialog-centered modal2">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title col-11 text-center" id="exampleModalLabel">{{modalTitle}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cerrarModal(1)"
+          style="color: white; background-color: white; border-radius: 60px; float: right;"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col">
+              <div class="mb-3">
+                <label *ngIf=" accionFormulario == 'editar'" for="inputNombre">Nombre *</label>
+                <input type="text" placeholder="Nombre *" [(ngModel)]="parametro.nombre" class="filtros"
+                  id="inputNombre" value="{{parametro.nombre}}" (keyup)="removeClass($event)"
+                  (keyup)="validarLongitud($event)" maxlength="50">
+                <span class="span-obligatorio" id="spanNombre">Campo requerido</span>
+                <span class="span-obligatorio" id="spanNombreC">Tamaño maximo 50 caracteres</span>
+              </div>
+
+              <div class="mb-3">
+                <label *ngIf=" accionFormulario == 'editar'" for="inputValor">Valor *</label>
+                <input type="text" placeholder="Valor *" [(ngModel)]="parametro.valor" class="filtros" id="inputValor"
+                  (change)="removeClass($event)" (keyup)="validarLongitud($event)" maxlength="500">
+                <span class="span-obligatorio" id="spanValor">Campo requerido</span>
+                <span class="span-obligatorio" id="spanValorC">Tamaño maximo 500 caracteres</span>
+              </div>
+
+              <div class="mb-3">
+                <label *ngIf=" accionFormulario == 'editar'" for="inputDescripcion">Descripción</label>
+                <input type="text" placeholder="Descripción" [(ngModel)]="parametro.descripcion" class="filtros"
+                  id="inputDescripcion" (change)="removeClass($event)" (keyup)="validarLongitud($event)"
+                  maxlength="500">
+                <span class="span-obligatorio" id="inputDescripcionC">Tamaño maximo 500 caracteres</span>
+              </div>
+
+              <div class="mb-3">
+                <label *ngIf=" accionFormulario == 'editar'" for="inputEstado">Estado *</label>
+                <select [(ngModel)]="parametro.estado" class="entrada" id="inputEstado" class="filtros"
+                  (keyup)="removeClass($event)" placeholder="Estado">
+                  <option [value]="null" >Estado *</option>
+                  <option [value]="0" >Deshabilitado</option>
+                  <option [value]="1" >Habilitado</option>
+                </select>
+                <span class="span-obligatorio" id="spanEstado">Campo requerido</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer  justify-content-center">
+        <button type="button" class="boton azul" (click)="cerrarModal(1)">Cerrar</button>
+        <button type="button" class="boton verde" (click)="envioFormulario(accionFormulario)">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Filtrado -->
+<div *ngIf="switchModalFiltro == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered modal2">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Filtros</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cerrarModal(1)"
+          style="color: white; background-color: white; border-radius: 60px; float: right;"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row" style="margin-bottom: 20px;">
+          <div class="col">
+            <input placeholder="Nombre" type="text" id="filtroNombre" class="filtros">
+          </div>
+        </div>
+        <div class="row" style="margin-bottom: 20px;">
+          <div class="col">
+            <select id="filtroEstado" class="filtros">
+              <option [value]="null" selected>Estado</option>
+              <option [value]="1">Habilitado</option>
+              <option [value]="0">Deshabilitado</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 20px;" *ngIf="alertaFechas == true">
+        <div class="col">
+          <p class="alerta-fechas">{{mensajeAlertaFechas}}</p>
+        </div>
+      </div>
+
+      <div class="row justify-content-center" style="margin-bottom: 10px;">
+        <button style="margin-right: 10px;" class="boton azul" (click)="limpiarFiltros()">Limpiar</button>
+        <button style="margin-left: 10px;" class="boton verde" (click)="filtrar()">Filtrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal alerta -->
+<div *ngIf="switchModalAlerta == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered modal2" >
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h5 class="modal-title col-11 text-center" >Alerta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cerrarModal(1)"
+          style="color: white; background-color: white; border-radius: 60px; float: right;"></button>
+      </div>
+      <div class="modal-body">
+        <p style="text-align: center; color: black !important; padding: 20px; font-size: 25px;">{{mensajeModal}}</p>
+      </div>
+    </div>
+  </div>
+</div>

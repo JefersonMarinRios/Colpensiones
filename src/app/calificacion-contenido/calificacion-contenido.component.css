@@ -1,0 +1,20 @@
+mat-tab.mat-tab-label {
+    min-width: 25px !important;
+    padding: 5px;
+    background-color: transparent;
+    color: #00993e;
+    font-weight: 700;
+  }
+  
+  
+  .nav-tabs {}
+  
+  .nav-item {}
+  
+  .nav-link {
+    color: black;
+  }
+  
+  .active-tabs {
+    color: #00993e !important;
+  }

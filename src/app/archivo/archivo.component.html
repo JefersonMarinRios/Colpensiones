@@ -1,0 +1,601 @@
+<div class="row">
+  <div class="col">
+    <h1>Archivo PAC</h1>
+  </div>
+</div>
+
+<div class="row justify-content-end" style="margin-bottom: 10px">
+  <div class="col-2">
+    <button
+      class="btn btn-secondary boton-abrir-filtro"
+      type="button"
+      (click)="abrirModalFiltro()"
+    >
+      Filtros
+    </button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col" style="overflow-x: scroll; max-width: 99%">
+    <table
+      id="table-registros"
+      class="table table-striped table-borderless tableParametros"
+      style="width: 140% !important"
+    >
+      <thead>
+        <tr class="bg-success" style="color: white">
+          <td style="" class="inicial">Depto.</td>
+          <td style="max-width: 8% !important">Ciudad</td>
+          <td style="max-width: 10% !important">Nombre</td>
+          <td style="max-width: 10% !important">Horario</td>
+          <td style="max-width: 10% !important">Direccion</td>
+          <td style="max-width: 10% !important">Long.</td>
+          <td style="max-width: 10% !important">Lat.</td>
+          <td style="max-width: 10% !important">Categoria</td>
+          <td style="max-width: 10% !important">Observaciones</td>
+          <td style="max-width: 4% !important">Estado</td>
+          <td style="max-width: 5% !important">Eliminar</td>
+          <td style="max-width: 5% !important" class="tend">Editar</td>
+        </tr>
+      </thead>
+      <tbody id="bodyTablePac">
+        <tr *ngFor="let parametro of parametros | slice: desde:hasta">
+          <td class="inicial">{{ parametro.ciudad.departamento.nombre }}</td>
+          <td
+            style="
+              max-width: 8% !important;
+              height: auto;
+              word-wrap: break-word;
+            "
+          >
+            {{ parametro.ciudad.nombre }}
+          </td>
+          <td
+            style="
+              max-width: 10% !important;
+              height: auto;
+              word-wrap: break-word;
+            "
+          >
+            {{ parametro.nombre }}
+          </td>
+          <td
+            style="
+              max-width: 10% !important;
+              height: auto;
+              word-wrap: break-word;
+            "
+          >
+            {{ parametro.horario }}
+          </td>
+          <td
+            style="
+              max-width: 10% !important;
+              height: auto;
+              word-wrap: break-word;
+            "
+          >
+            {{ parametro.direccion }}
+          </td>
+          <td
+            style="
+              max-width: 10% !important;
+              height: auto;
+              word-wrap: break-word;
+            "
+          >
+            {{ parametro.longitud }}
+          </td>
+          <td
+            style="
+              max-width: 10% !important;
+              height: auto;
+              word-wrap: break-word;
+            "
+          >
+            {{ parametro.latitud }}
+          </td>
+          <td
+            style="
+              max-width: 10% !important;
+              height: auto;
+              word-wrap: break-word;
+            "
+          >
+            {{ parametro.categoria.nombre }}
+          </td>
+          <td
+            style="
+              max-width: 10% !important;
+              height: auto;
+              word-wrap: break-word;
+            "
+          >
+            {{ parametro.observacion }}
+          </td>
+
+          <td>
+            <div class="col">
+              <!-- <div class="mitad">
+                <mat-slide-toggle
+                  [checked]="elemento.estado == 1"
+                  (change)="cambiarEstado($event, parametro.id)"
+                >
+                </mat-slide-toggle>
+              </div> -->
+              <p
+                style="text-align: center"
+                id="slideEstado-{{ parametro.id }}"
+                for=""
+              >
+                {{ parametro.estado == 0 ? "Inhabilitado" : "Habilitado" }}
+              </p>
+            </div>
+          </td>
+          <td class="">
+            <button
+              style="color: #00993e"
+              mat-icon-button
+              aria-label="remove"
+              (click)="confirmacion('eliminar', parametro.id)"
+            >
+              <img
+                class="mitad2"
+                src="..\assets\images\eliminar.png"
+                alt="Eliminar"
+              />
+            </button>
+          </td>
+          <td class="tend">
+            <button
+              style="color: #00993e"
+              mat-icon-button
+              aria-label="remove"
+              (click)="formulario('editar', parametro.id)"
+            >
+              <img
+                class="mitad2"
+                src="..\assets\images\editar.png"
+                alt="editar"
+              />
+            </button>
+          </td>
+          {{
+            ajustarTamano(1)
+          }}
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <mat-paginator
+    *ngIf="parametros.length > 0"
+    [length]="parametros.length"
+    [pageSize]="pageSize"
+    (page)="cambiarPagina($event)"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    aria-label="Seleccionar pagina"
+  >
+  </mat-paginator>
+</div>
+<div class="row">
+  <div class="flex-botones">
+    <div class="">
+      <button class="btn verde listboton" (click)="exportExcel()">
+        Cargar Archivo
+      </button>
+    </div>
+    <div class="">
+      <button
+        class="btn azul listboton"
+        type="button"
+        (click)="formulario('agregar', 0)"
+      >
+        Agregar
+      </button>
+      <!-- data-bs-toggle="modal" data-bs-target="#modalFormulario" -->
+    </div>
+    <div class="">
+      <button class="btn verde listboton" (click)="exportExcel()">
+        Descargar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- modal filtro -->
+<div *ngIf="switchModalFiltro == true" class="back-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title col-11 text-center" id="exampleModalLabel">
+          Filtros
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="switchModalFiltro = false"
+          style="
+            color: white;
+            background-color: white;
+            border-radius: 60px;
+            float: right;
+          "
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row" style="margin-bottom: 20px">
+          <div class="col">
+            <select
+              [(ngModel)]="selectedDepartamento"
+              id="departamento"
+              class="form-control"
+              (change)="
+                listarCiudades($event.target.value); removeClass($event)
+              "
+            >
+              <option value="0" selected>Seleccione departamento</option>
+              <option
+                *ngFor="let departamento of departamentos"
+                value="{{ departamento.id }}"
+              >
+                {{ departamento.nombre }}
+              </option>
+            </select>
+            <span class="span-obligatorio" id="spanDepartamento"
+              >Campo requerido</span
+            >
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 20px">
+          <div class="col">
+            <select
+              [(ngModel)]="selectedCiudad"
+              name="ciudad"
+              id="ciudad"
+              class="form-control"
+              (change)="removeClass($event)"
+            >
+              <option value="0" selected>Seleccione ciudad</option>
+              <option *ngFor="let ciudad of ciudades" value="{{ ciudad.id }}">
+                {{ ciudad.nombre }}
+              </option>
+            </select>
+            <span class="span-obligatorio" id="spanRegion"
+              >Campo requerido</span
+            >
+          </div>
+        </div>
+        <div class="row" style="margin-top: 10px">
+          <div class="col div-botones">
+            <button class="boton azul btn-filtros" (click)="limpiarFiltros()">
+              Limpiar
+            </button>
+          </div>
+          <div class="col div-botones">
+            <button class="boton verde btn-filtros" (click)="filtrar()">
+              Filtrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Formulario modal-->
+<div *ngIf="switchModal == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-success">
+        <h5 class="modal-title col-11 text-center" id="">{{ modalTitle }}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="cerrarModal(1)"
+          style="
+            color: white;
+            background-color: white;
+            border-radius: 60px;
+            float: right;
+          "
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <div class="mb-3" *ngIf="accionFormulario == 'agregar'">
+              <select
+                [(ngModel)]="selectedDepartamento2"
+                id="departamento2"
+                class="form-control"
+                (change)="listarCiudades($event.target.value)"
+                (change)="removeClass($event)"
+              >
+                <option value="0" selected>Seleccione departamento</option>
+                <option
+                  *ngFor="let departamento of departamentos"
+                  value="{{ departamento.id }}"
+                >
+                  {{ departamento.nombre }}
+                </option>
+              </select>
+              <span class="span-obligatorio" id="spanDepartamento"
+                >Campo requerido</span
+              >
+            </div>
+            <div class="mb-3" *ngIf="accionFormulario == 'agregar'">
+              <select
+                [(ngModel)]="selectedCiudad2"
+                id="ciudad2"
+                class="form-control"
+                (change)="removeClass($event)"
+              >
+                <option value="0" selected>Seleccione ciudad</option>
+                <option *ngFor="let ciudad of ciudades" value="{{ ciudad.id }}">
+                  {{ ciudad.nombre }}
+                </option>
+              </select>
+              <span class="span-obligatorio" id="spanCiudad"
+                >Campo requerido</span
+              >
+            </div>
+            <div class="mb-3">
+              <label for="nombre" *ngIf="accionFormulario == 'editar'"
+                >Nombre *</label
+              >
+              <input
+                type="text"
+                [(ngModel)]="parametro.nombre"
+                class="form-control"
+                id="nombre"
+                placeholder="nombre*"
+              />
+              <span class="span-obligatorio" id="spanNombre"
+                >Campo requerido</span
+              >
+            </div>
+            <div class="mb-3">
+              <label for="horario" *ngIf="accionFormulario == 'editar'"
+                >Horario *</label
+              >
+              <input
+                type="text"
+                [(ngModel)]="parametro.horario"
+                class="form-control"
+                id="horario"
+                placeholder="horario*"
+              />
+              <span class="span-obligatorio" id="spanHorario"
+                >Campo requerido</span
+              >
+            </div>
+            <div class="mb-3">
+              <label for="direccion" *ngIf="accionFormulario == 'editar'"
+                >Dirección *</label
+              >
+              <input
+                type="text"
+                [(ngModel)]="parametro.direccion"
+                class="form-control"
+                id="direccion"
+                placeholder="direccion*"
+              />
+              <span class="span-obligatorio" id="spanDireccion"
+                >Campo requerido</span
+              >
+            </div>
+            <div class="mb-3">
+              <label for="longitud" *ngIf="accionFormulario == 'editar'"
+                >Longitud *</label
+              >
+              <input
+                type="number"
+                [(ngModel)]="parametro.longitud"
+                class="form-control"
+                id="longitud"
+                placeholder="longitud"
+                [value]="parametro.longitud"
+              />
+              <span class="span-obligatorio" id="spanLongitud"
+                >Campo requerido</span
+              >
+            </div>
+            <div class="mb-3">
+              <label for="latitud" *ngIf="accionFormulario == 'editar'"
+                >Latitud *</label
+              >
+              <input
+                type="number"
+                [(ngModel)]="parametro.latitud"
+                class="form-control"
+                id="latitud"
+                placeholder="latitud"
+                [value]="parametro.latitud"
+              />
+              <span class="span-obligatorio" id="spanLatitud"
+                >Campo requerido</span
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="categoria" *ngIf="accionFormulario == 'editar'"
+                >Categoría *</label
+              >
+              <select
+                [(ngModel)]="selectedCategoria"
+                id="categoria"
+                name="categoria"
+                class="form-control"
+                (change)="removeClass($event)"
+              >
+                <option value="0">Seleccione categoria</option>
+                <option
+                  *ngFor="let categoria of categorias"
+                  value="{{ categoria.id }}"
+                >
+                  {{ categoria.nombre }}
+                </option>
+              </select>
+              <span class="span-obligatorio" id="spanCategoria"
+                >Campo requerido</span
+              >
+            </div>
+
+            <div class="mb-3" *ngIf="accionFormulario == 'agregar'">
+              <input
+                type="text"
+                [(ngModel)]="parametro.observacion"
+                class="form-control"
+                id="observaciones"
+                placeholder="observaciones"
+              />
+              <span class="span-obligatorio" id="spanObservaciones"
+                >Campo requerido</span
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="inputEstado" *ngIf="accionFormulario == 'editar'"
+                >Estado *</label
+              >
+              <select
+                [(ngModel)]="parametro.estado"
+                class="entrada"
+                id="inputEstado"
+                class="filtros"
+                (keyup)="removeClass($event)"
+                placeholder="Estado"
+              >
+                <option [value]="null">Estado *</option>
+                <option [value]="0">Inhabilitado</option>
+                <option [value]="1">Habilitado</option>
+              </select>
+              <span class="span-obligatorio" id="spanEstado"
+                >Campo requerido</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button
+          type="button"
+          class="btn azul boton"
+          style="margin-right: 10px"
+          data-bs-dismiss="modal"
+          (click)="cerrarModal(1)"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="button"
+          class="btn verde boton"
+          style="margin-left: 10px"
+          data-bs-dismiss="modal"
+          (click)="guardarCambios()"
+        >
+          Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal Confirmacion -->
+<div *ngIf="modalSwitchConfirmacion == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered" tabindex="1040">
+    <div class="modal-content" style="width: 450px; border-radius: 30px">
+      <div class="modal-header">
+        <h3
+          class="modal-title"
+          id="exampleModalLabel"
+          style="text-align: center; width: 100%"
+        >
+          {{ "Alerta" }}
+        </h3>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          style="
+            color: white;
+            background-color: white;
+            border-radius: 60px;
+            float: right;
+          "
+          (click)="cerrarModal(0)"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h5 style="text-align: center">{{ mensajeModal }}</h5>
+        <div class="row justify-content-center" style="margin-bottom: 10px">
+          <button
+            type="button"
+            class="btn azul boton"
+            style="width: 160px; height: 50px; margin: 0px auto"
+            (click)="confirmar()"
+          >
+            {{ textoBotonConfirmacion }}
+          </button>
+          <button
+            type="button"
+            class="btn verde boton"
+            style="width: 160px; height: 50px; margin: 0px auto"
+            data-bs-dismiss="modal"
+            (click)="cerrarModal(0)"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal alerta -->
+<div *ngIf="switchModalAlerta == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title col-11 text-center" id="exampleModalLabel">
+          Alerta
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="cerrarModal(1)"
+          style="
+            color: white;
+            background-color: white;
+            border-radius: 60px;
+            float: right;
+          "
+        ></button>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <h5 style="text-align: center">{{ mensajeModal }}</h5>
+        </div>
+        <div class="row" style="margin-top: 10px">
+          <div class="col div-botones">
+            <!-- <button
+              type="button"
+              class="boton azul"
+              style="width: 130px !important"
+              (click)="cerrarModal(1)"
+            >
+              Cerrar
+            </button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

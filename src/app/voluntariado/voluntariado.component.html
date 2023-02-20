@@ -1,0 +1,204 @@
+<mat-icon class="back" routerLink="../">reply</mat-icon>
+<br />
+<div class="container-fluid container-md container-sm">
+  <h1 class="tittle-parametros">Voluntariado</h1>
+</div>
+
+<div class="row div-mensaje">
+  <div class="col">
+    <p>Descripción *</p>
+  </div>
+  <div class="col">
+    <textarea [(ngModel)]="voluntariado.descripcion">{{
+      voluntariado.descripcion
+    }}</textarea>
+  </div>
+</div>
+<div *ngIf="enviarPUSH == true" class="row div-mensaje div-push">
+  <div class="col">
+    <p>Contenido PUSH</p>
+  </div>
+  <div class="col">
+    <textarea id="inputPush" [(ngModel)]="contenidoPush"></textarea>
+  </div>
+</div>
+<div *ngIf="enviarPUSH == true" class="row div-mensaje div-push">
+  <div class="col">
+    <p>Fecha Inicial</p>
+  </div>
+  <div class="col-4">
+    <input
+      placeholder="Fecha Inicial"
+      type="text"
+      name="fechaInicial"
+      id="fechaInicial"
+      class="inputFechas"
+      [matDatepicker]="fechaInicial"
+    />
+    <mat-datepicker #fechaInicial></mat-datepicker>
+  </div>
+  <div class="col-2">
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="fechaInicial"
+      style="float: left"
+    ></mat-datepicker-toggle>
+  </div>
+</div>
+<div *ngIf="enviarPUSH == true" class="row div-mensaje div-push">
+  <div class="col">
+    <p>Fecha Final</p>
+  </div>
+  <div class="col-4">
+    <input
+      placeholder="Fecha Final"
+      type="text"
+      name="fechaFin"
+      id="fechaFin"
+      class="inputFechas"
+      [matDatepicker]="fechaFin"
+    />
+    <mat-datepicker #fechaFin></mat-datepicker>
+  </div>
+  <div class="col-2">
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="fechaFin"
+      style="float: left"
+    ></mat-datepicker-toggle>
+  </div>
+</div>
+<div class="div-botones">
+  <!--<i class="fas fa-toggle-on"></i> -->
+  <button
+    id="checkPush"
+    class="boton gris"
+    style="width: 220px !important"
+    (click)="togglePUSH($event)"
+  >
+    <img
+      id="checkPush"
+      src="../../assets/images/{{ imagenBoton }}.svg"
+      alt=""
+      class="push"
+    />
+    Enviar push
+  </button>
+  <button
+    class="boton azul"
+    style="width: 200px !important"
+    (click)="confirmacion('cancelar')"
+  >
+    Cancelar
+  </button>
+  <button
+    class="boton verde"
+    style="width: 200px !important"
+    (click)="guardarCambios()"
+  >
+    Guardar cambios
+  </button>
+</div>
+<div class="div-botones">
+  <button
+    class="boton azul descarga"
+    style="width: 250px !important; font-size: 13px"
+    (click)="exportExcel()"
+  >
+    Descargar lista de asistentes <br />
+    <p>(Extensiones .xls)</p>
+  </button>
+</div>
+
+<div *ngIf="modalSwitch == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered" tabindex="1040">
+    <div class="modal-content" style="width: 450px; border-radius: 30px">
+      <div class="modal-header">
+        <h3
+          class="modal-title"
+          id="exampleModalLabel"
+          style="text-align: center; width: 100%"
+        >
+          {{ "Alerta" }}
+        </h3>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          style="
+            color: white;
+            background-color: white;
+            border-radius: 60px;
+            float: right;
+          "
+          (click)="cerrarModal(1)"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p
+          style="
+            text-align: center;
+            color: black !important;
+            padding: 20px;
+            font-size: 25px;
+          "
+        >
+          {{ mensajeModal }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="modalSwitchConfirmacion == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered" tabindex="1040">
+    <div class="modal-content" style="width: 450px; border-radius: 30px">
+      <div class="modal-header">
+        <h3
+          class="modal-title"
+          id="exampleModalLabel"
+          style="text-align: center; width: 100%"
+        >
+          {{ "Alerta" }}
+        </h3>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          style="
+            color: white;
+            background-color: white;
+            border-radius: 60px;
+            float: right;
+          "
+          (click)="cerrarModal(0)"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h5 style="text-align: center">{{ mensajeModal }}</h5>
+        <div class="row justify-content-center" style="margin-bottom: 10px">
+          <button
+            type="button"
+            class="btn azul btn-rounded"
+            style="margin-right: 5px; margin-left: 15px; "
+            (click)="confirmar()"
+          >
+            {{ textoBotonConfirmacion }}
+          </button>
+          <button
+            type="button"
+            class="btn verde btn-rounded"
+            style="margin-left: 10px; margin-right: -30px"
+            data-bs-dismiss="modal"
+            (click)="cerrarModal(0)"
+          >
+            No
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

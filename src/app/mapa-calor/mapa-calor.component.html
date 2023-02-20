@@ -1,0 +1,104 @@
+<div class="row">
+  <div class="col">
+    <h1 class="tittle-parametros">Mapa de puntos</h1>
+  </div>
+</div>
+
+<div class="row justify-content-end" style="margin-bottom: 10px;">
+  <div class="col-2">
+    <button 
+      class="btn btn-secondary boton-abrir-filtro" 
+      type="button" 
+      (click)="abrirModalFiltro()"
+      style="margin-right: 30px;"
+      >
+      Filtros
+    </button>
+  </div>
+</div>
+
+<div id="map"></div>
+<br>
+<br>
+<div class="row" *ngIf="mostratTable == true">
+  <div class="col">
+    <div class="row">
+      <div class="col">
+        <table class="table table-striped tableParametros">
+          <thead>
+            <tr class="bg-success">
+              <td class="thInicial">Acción</td>
+              <td>Fecha</td>
+              <td>Latitud</td>
+              <td class="thFinal">Longitud</td>
+            </tr>
+          </thead>
+          <tbody id="bodyTableParametros">
+            <tr *ngFor="let elemento of datosTabla | slice:desde:hasta">
+              <td class="tdInicial">{{elemento.colpItem.nombre}}</td>
+              <td>{{elemento.fecha}}</td>
+              <td>{{elemento.lat}}</td>
+              <td class="tdFinal">{{elemento.lng}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <mat-paginator [length]="datosTablaLength" [pageSize]="pageSize" (page)="cambiarPagina($event)"
+          [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- modal filtro -->
+<div *ngIf="switchModalFiltro == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered modal2">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title col-11 text-center" id="exampleModalLabel">Filtros</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="switchModalFiltro = false; alertaFechas = false"
+          style="color: white; background-color: white; border-radius: 60px; float: right;"></button>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      </div>
+      <div class="modal-body">
+        <div class="row" style="margin-bottom: 20px;">
+          <div class="col">
+            <input placeholder="Fecha inicial" type="text" id="filtroFechaInicial" class="filtros"
+                [matDatepicker]="fechaInicial">
+              <mat-datepicker #fechaInicial></mat-datepicker>
+          </div>
+          <div class="col-2">
+            <mat-datepicker-toggle matSuffix [for]="fechaInicial" style="float: left;"></mat-datepicker-toggle>
+          </div>
+        </div>
+        <div class="row" style="margin-bottom: 20px;">
+          <div class="col">
+            <input placeholder="Fecha final" type="text" id="filtroFechaFinal" class="filtros"
+                [matDatepicker]="fechaFinal">
+              <mat-datepicker #fechaFinal></mat-datepicker>
+          </div>
+          <div class="col-2">
+            <mat-datepicker-toggle matSuffix [for]="fechaFinal" style="float: left;"></mat-datepicker-toggle>
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 20px;" *ngIf="alertaFechas == true">
+          <div class="col">
+            <p class="alerta-fechas">{{mensajeAlertaFechas}}</p>
+          </div>
+        </div>
+
+
+        <div class="row" style="margin-top: 10px;">
+          <div class="col div-botones">
+            <button class="boton azul btn-filtros" (click)="limpiarFiltros()">Limpiar</button>
+          </div>
+          <div class="col div-botones">
+            <button class="boton verde btn-filtros" (click)="filtrar()">Filtrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<mat-icon class="back" routerLink="../alianzas">reply</mat-icon>
+<br>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <h1 class="title">{{categoria.nombre}}</h1>
+    </div>
+  </div>
+  <mat-tab-group dynamicHeight style="margin-bottom: 20px" *ngIf="cupones != null && cupones.length != 0">
+    <mat-tab label="Menu">
+      <appcolp-menu-cupones [cupones]="cupones" [idAlianza]="idAlianza"></appcolp-menu-cupones>
+    </mat-tab>
+    <mat-tab *ngFor="let item of cupones" [label]="item.titulo">
+      <appcolp-form-cupon [cupon]="item" [idAlianza]="idAlianza"></appcolp-form-cupon>
+    </mat-tab>
+    <mat-tab label="+">
+      <appcolp-form-cupon [cupon]="null" [idAlianza]="idAlianza"></appcolp-form-cupon>
+    </mat-tab>
+  </mat-tab-group>
+  <mat-tab-group dynamicHeight style="margin-bottom: 20px" *ngIf="cupones == null || cupones.length == 0">
+    <mat-tab label="+">
+      <appcolp-form-cupon [cupon]="null" [idAlianza]="idAlianza"></appcolp-form-cupon>
+    </mat-tab>
+  </mat-tab-group>
+</div>

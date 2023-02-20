@@ -1,0 +1,32 @@
+<!-- Boton regresar -->
+<div class="container-fluid">
+  <div class="row">
+    <!-- <div class="col-md-2">
+      <div  style="margin-bottom: 10px;     margin-left: 30px;">
+        <div class="">
+          <button style="color: #00993e;" mat-icon-button aria-label="remove"
+          (click)='atras("atras", presentacion)' >
+          <mat-icon style="font-size: 50px;">home</mat-icon>
+          </button>  
+        </div>
+      </div>
+    </div> -->
+    <!-- <div class="col-md-8"> -->
+    <div class="col">
+      <h1 class="title">Sección Educación</h1>
+    </div>
+  </div>
+  <!-- <mat-tab-group dynamicHeight>
+    <mat-tab label="Menu"> -->
+      <div class="row">
+        <div class="col registro" *ngFor="let item of datos" [routerLink]="item.dir">
+          <div class="div-contenedor center-x center-y">
+            <img src="..\assets\images\{{item.icon}}" class="" alt="">
+          </div>
+          <p class="textCenter" for="">{{item.nombre}}</p>
+        </div>
+      </div>
+    <!-- </mat-tab>
+  </mat-tab-group> -->
+</div>
+

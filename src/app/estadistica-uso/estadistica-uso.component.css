@@ -1,0 +1,261 @@
+.body {
+  width: 100%;
+  height: 750px;
+
+}
+
+.example-container {
+  display: flex;
+
+  padding: 30px;
+}
+
+.example-container>* {
+  width: 100%;
+}
+
+.botton {
+  background: #1C2331;
+  color: white;
+}
+
+cajas {
+  border: 1px solid #1C2331;
+  padding: 30px;
+  width: 100%;
+}
+
+.otro {
+  overflow: auto;
+}
+
+.example-card {
+  max-width: 500px;
+  max-height: 500px;
+  overflow: auto;
+  background: #66bb6a;
+}
+
+.tittle-stats {
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: bold;
+  font-size: 40px;
+  color: #00993E;
+  margin-bottom: 50px;
+}
+
+.a-stats {
+  color: white;
+  text-align: center;
+}
+
+.service-bar {
+  background-color: #00993E;
+  width: 900px;
+}
+
+/* *************************************** */
+/* Tabla grafica de uso */
+
+.table-grafica-uso {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.table-grafica-uso thead {
+  background-color: #00993E;
+}
+
+.table-grafica-uso thead tr th {
+  color: white;
+  text-align: center;
+  font-weight: 300;
+}
+
+.table-grafica-uso tbody tr td {
+  color: gray;
+  text-align: center;
+  font-weight: 300;
+  border: none;
+}
+
+.end-column {
+  color: gray;
+  text-align: center;
+  font-weight: 300;
+  margin: 1px;
+  height: 100%;
+  border: 1px gray solid;
+}
+
+.barra {
+  padding: 5px;
+  height: 100%;
+  width: 100%;
+}
+
+.barra div {
+  background-color: #f6f6f6;
+  height: 35px;
+  padding: 5px 10px;
+}
+
+.verde {
+  background-color: #00993e !important;
+}
+
+.azul {
+  background-color: #3f51b5 !important;
+}
+
+.ultima-fila {
+  height: 70px;
+}
+
+.ultima-fila td .row .col {
+  color: black;
+}
+
+/* Tooltip */
+
+.test-tooltip {
+  position: relative;
+}
+
+.test-tooltip .tooltip-box {
+  position: absolute;
+  background-color: black;
+  line-height: 20px;
+  z-index: 500;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  display: none;
+  left: 30%;
+  bottom: 35px;
+}
+
+.test-tooltip .tooltip-box::after {
+  content: "";
+  display: block;
+  border-top: 5px solid black;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  position: absolute;
+  bottom: -5px;
+  left: calc(50% - 7px);
+}
+
+.test-tooltip:hover .tooltip-box {
+  display: block;
+}
+
+.div-fecha {
+  background-color: #f6f6f6;
+  height: 100px;
+  padding: 5px 10px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 20px;
+  font-size: 25px;
+  /* font-weight: 600; */
+}
+
+/* Filtros */
+
+.card .row{
+  margin-bottom: 15px;
+}
+
+.card .row .col-2{
+  padding-left: 0;
+}
+
+.filtros{
+  width: 98%;
+  height: 50px;
+  /* padding-left: 10px; */
+  text-align: center;
+  border: none;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.filtros:focus{
+  outline: none;
+}
+
+.filtros::placeholder{
+  color: black;
+}
+
+.modal-body .row{
+  margin-bottom: 20px;
+}
+
+
+.btn-filtros{
+  border: none;
+  border-radius: 25px;
+  height: 50px;
+  width: 180px;
+  font-size: 20px;
+  font-weight: 400;
+  color: #fff;
+}
+
+.boton-abrir-filtro {
+  width: 100px;
+  border-radius: 20px;
+  float: right;
+  margin: 0;
+}
+
+.back-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #0000008a;
+}
+
+.back-modal .modal-dialog {
+  opacity: 1;
+  margin: auto auto;
+}
+
+
+.alerta-fechas{
+  color: red;
+  text-align: center;
+}
+
+.modal2 {
+  display: flex;
+  justify-content: center;
+}
+
+/* .modal-dialog {
+  margin: 300px auto !important;
+} */
+
+.modal-title{
+  color: white;
+}
+
+.modal-header {
+  background-color: #00993E !important;
+  color: #fff !important;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 29px 29px 0px 0px;
+}
+
+.modal-content {
+  border-radius: 30px;
+}

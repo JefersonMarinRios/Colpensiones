@@ -1,0 +1,143 @@
+<div class="row justify-content-md-center div-mensaje">
+  <div class="col">
+    <p>Titulo *</p>
+  </div>
+  <div class="col">
+    <input style="width: 400px;" type="text" [(ngModel)]="cupon.titulo" [value]="cupon.titulo" class="inputFechas" (change)="removeClass($event)" (keyup)="validarLongitud($event)"
+      id="inputTitulo">
+      <span class="span-obligatorio" id="spanTitulo">Campo requerido</span>
+      <span class="span-obligatorio" id="spanTituloC">maximo 50 caracteres</span>
+  </div>
+</div>
+
+<!-- <div class="row div-mensaje div-push">
+  <div class="col">
+    <p>Fecha Inicial</p>
+  </div>
+  <div class="col-4">
+    <input placeholder="Fecha Inicial" type="text"  id="fechaInicial" class="inputFechas"
+      [matDatepicker]="fechaInicial">
+    <mat-datepicker #fechaInicial></mat-datepicker>
+  </div>
+  <div class="col-2">
+    <mat-datepicker-toggle matSuffix [for]="fechaInicial" style="float: left;"></mat-datepicker-toggle>
+  </div>
+</div> -->
+
+<div class="row justify-content-md-center">
+    <!-- <img src="image-gallery.svg" alt=""> -->
+  <div class="col-4" style="margin-left: 100px;">
+    <div class="recuadro-excel center-y center-x" id="recuadro-frontal">
+      <img id="imagenFrontal" />
+    </div>
+    <div class="div-button center-y center-x">
+      <button class="btn-round verde" (click)="abrirCarga(1)"> <b>Imagen frontal</b> <br> Formatos
+        permitidos .png .jpg .svg </button>
+      <span class="span-obligatorio" id="spanImagenFrontal">Carga de imagen requerida</span>
+      <input type="file" id="cargaImagenFrontal" style="display: none;"
+        (change)="addFile($event)">
+        <!-- (change)="addFile($event.target.files)"> -->
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="recuadro-excel center-y center-x" id="recuadro-posterior">
+      <img id="imagenPosterior"  />
+    </div>
+    <div class="div-button center-y center-x">
+      <button class="btn-round verde" (click)="abrirCarga(2)"> <b>Imagen posterior</b> <br> Formatos
+        permitidos .png .jpg .svg </button>
+      <span class="span-obligatorio" id="spanImagenPosterior">Carga de imagen requerida</span>
+      <input type="file" id="cargaImagenPosterior" style="display: none;"
+        (change)="addFile($event)">
+    </div>
+  </div>
+  {{ anadirImagen(cupon) }}
+</div>
+
+<!-- push -->
+<div *ngIf="enviarPUSH == true" class="row div-mensaje div-push">
+  <div class="col">
+    <p>Contenido PUSH</p>
+  </div>
+  <div class="col">
+    <textarea id="inputPush" [(ngModel)]="contenidoPush" (change)="removeClass($event)" (keyup)="validarLongitud($event)" maxlength='150'></textarea>
+    <span class="span-obligatorio" id="spanInputPush">Campo requerido</span>
+    <span class="span-obligatorio" id="spanInputPushC">Tamaño maximo 150 caracteres</span>
+  </div>
+</div>
+
+<div *ngIf="enviarPUSH == true" class="row div-mensaje div-push">
+  <div class="col">
+    <p>Fecha Inicial</p>
+  </div>
+  <div class="col-4">
+    <input placeholder="Fecha Inicial" [(ngModel)]="fechaInicio" type="text" id="fechaInicial" class="inputFechas"
+      [matDatepicker]="fechaInicial"
+      (change)="removeClass($event)">
+    <mat-datepicker #fechaInicial></mat-datepicker>
+    <span class="span-obligatorio" id="spanFechaInicial">Campo
+      requerido</span>
+  </div>
+  <div class="col-2">
+    <mat-datepicker-toggle matSuffix [for]="fechaInicial" style="float: left;"></mat-datepicker-toggle>
+  </div>
+</div>
+
+<div *ngIf="enviarPUSH == true" class="row div-mensaje div-push">
+  <div class="col">
+    <p>Fecha Final</p>
+  </div>
+  <div class="col-4">
+    <input  placeholder="Fecha Final" type="text" id="fechaFin" class="inputFechas"
+      [matDatepicker]="fechaFin" (change)="removeClass($event)">
+    <mat-datepicker #fechaFin></mat-datepicker>
+    <span class="span-obligatorio" id="spanFechaFin">Campo
+      requerido</span>
+  </div>
+  <div class="col-2">
+    <mat-datepicker-toggle matSuffix [for]="fechaFin" style="float: left;"></mat-datepicker-toggle>
+  </div>
+</div>
+
+<div class="div-botones">
+  <!--<i class="fas fa-toggle-on"></i> -->
+  <button id="checkPush"class="boton gris" style="width: 250px !important;" (click)="togglePUSH($event)">
+    <img id="checkPush" src="../../assets/images/{{imagenBoton}}.svg" alt="" class="push"> Enviar push
+  </button>
+  <button class="boton azul" style="width: 250px !important;" (click)="cancelar()">Cancelar</button>
+  <button class="boton verde" style="width: 250px !important;" (click)="guardarCambios()">Guardar cambios</button>
+</div>
+
+<div *ngIf="modalSwitch == true" class="back-modal">
+  <div class="modal-dialog modal-dialog-centered" ntabindex="1040">
+    <div class="modal-content" style="width: 450px; border-radius: 30px;">
+      <div class="modal-header">
+        <h3
+        class="modal-title"
+        id="exampleModalLabel"
+        style="text-align: center; width: 100%"
+      >
+        {{ "Alerta" }}
+      </h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="
+        color: white;
+        background-color: white;
+        border-radius: 60px;
+        float: right;
+      " (click)="cerrarModal()"
+      ></button>
+      </div>
+      <div class="modal-body">
+        <p
+          style="
+            text-align: center;
+            color: black !important;
+            padding: 20px;
+            font-size: 25px;
+          "
+        >
+          {{ mensajeModal }}
+        </p>
+    </div>
+  </div>
+</div>

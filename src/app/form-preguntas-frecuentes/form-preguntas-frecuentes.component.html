@@ -1,0 +1,167 @@
+<div class="row">
+  <div class="col">
+    <h1 class="title" style="margin-bottom: 15px;">Preguntas frecuentes</h1>
+    <h4 class="title" 
+    style="font-size: 30px !important;"
+    >{{ nombreCategoria == null ? 'Categorias Principales' : 'Categoria ' + nombreCategoria}}</h4>
+  </div>
+</div>
+
+<!-- Los registros antiguos -->
+<div class="row registro"  *ngFor="let item of preguntas" id="fila-vieja-{{item.id}}">
+  <div class="row registro-pregunta">
+    <table>
+      <tbody>
+        <td 
+          style="color: #011F5A; font-size: 25px; font-weight: 500;" 
+          contenteditable="true" 
+          id="pregunta-vieja-{{item.id}}">{{item.nombre}}</td>
+        <td style="width: 15%;">
+          <div style="float: left;">
+            <img class="icon-table" style="margin-bottom: 5px;" src="..\assets\images\eliminar.png" alt="Eliminar" (click)="guardarCambios(item.id, 'registrados')"/>
+            <p style="text-align: center;">Guardar</p>
+          </div>
+          <div style="float: left; margin-left: 30px;">
+            <img class="icon-table" style="margin-bottom: 5px;" src="..\assets\images\eliminar.png" alt="Eliminar" (click)="confirmacion('eliminar', item.id, 'registrados')"/>
+            <p style="text-align: center;">Eliminar</p>
+          </div>
+          <div class="icon-table" style="float: right;">
+            <mat-slide-toggle 
+              style="height: 38px; margin-bottom: 5px;"
+              [checked]="item.estado == 1" 
+              (change)="cambiarEstado($event, item.id)"></mat-slide-toggle>
+            <p style="text-align: center;" id="slideEstado-{{item.id}}" for="">{{item.estado == 0 ? "Inactivo" : "Activo"}}</p>
+          </div>
+        </td>
+      </tbody>
+    </table>
+  </div>
+  <div class="row" style="padding: 0px;">
+    <textarea class="text-respuesta" id="respuesta-vieja-{{item.id}}">{{item.descripcion}}</textarea>
+  </div>
+</div>
+
+<!--Registros nuevos-->
+<div class="row registro" *ngFor="let item of preguntasNuevas, index as i" id="fila-nueva-{{i}}">
+  <div class="row registro-pregunta">
+    <table>
+      <tbody>
+        <td 
+          style="color: #011F5A; font-size: 25px; font-weight: 500;" 
+          contenteditable="true" 
+          id="pregunta-nueva-{{i}}">{{item.nombre == '' || item.nombre == null ? 'Escribe la pregunta aquí' : item.nombre }}</td>
+        <td style="width: 15%;">
+          <div style="float: left;">
+            <img class="icon-table" style="margin-bottom: 5px;" src="..\assets\images\eliminar.png" alt="Guardar" (click)="guardarCambios(i, 'nuevos')"/>
+            <p style="text-align: center;">Guardar</p>
+          </div>
+          <div  style="float: right;">
+            <img class="icon-table" style="margin-bottom: 15px;" src="..\assets\images\eliminar.png" alt="Eliminar" (click)="confirmacion('eliminar', i, 'nuevos')"/>
+            <p style="text-align: center;">Eliminar</p>
+          </div>
+        </td>
+      </tbody>
+    </table>
+  </div>
+  <div class="row" style="padding: 0px;">
+    <textarea class="text-respuesta" id="respuesta-nueva-{{i}}">{{ item.descripcion == '' || item.descripcion == null ? 'Escribe las respuestas aquí' : item.descripcion}}</textarea>
+  </div>
+</div>
+
+<!-- INICIO TODO CONTENIDO PUSH-->
+
+<div *ngIf="enviarPUSH == true" class="row justify-content-md-center" style=" margin-top: 20px;">
+  <div class="col-4 div-input columna" style="float: right">
+    <label for="">Contenido PUSH *</label>
+  </div>
+  <div class="col divMensaje">
+    <textarea [(ngModel)]="contenidoPush" id="inputPush"
+      class="input-form" (change)="removeClass($event)"
+      (keyup)="validarLongitud($event)" maxlength='150' style="margin-bottom: 20px;"></textarea>
+    <span class="span-obligatorio" id="spanInputPush">Campo requerido</span>
+    <span class="span-obligatorio" id="spanInputPushC">Tamaño maximo 150 caracteres</span>
+  </div>
+</div>
+
+<!-- Fila PUSH fechas -->
+<div *ngIf="enviarPUSH == true" class="row justify-content-md-center">
+  <div class="col-4 div-input">
+    <div class="col-sm columna">
+      <label for="">Fecha final *</label>
+    </div>
+  </div>
+  <div class="divCalendar">
+    <mat-datepicker-toggle matSuffix [for]="fechaFinPush"></mat-datepicker-toggle>
+  </div>
+  <!-- <div class="col columna"> -->
+  <div class="col divMensaje">
+    <mat-datepicker #fechaFinPush></mat-datepicker>
+    <input
+      [(ngModel)]="fechaFin" type="text"  id="fechaFinPush"
+      class="input-form" [matDatepicker]="fechaFinPush" style="padding-left: 15px; height: 50px;"
+      (change)="removeClass($event)">
+    <span class="span-obligatorio" id="spanFechaFinPush" style="padding-right: 0px; float: left;">Campo
+      requerido</span>
+  </div>
+</div>
+
+<!-- Botones inferiores -->
+<div class="row" style="margin-bottom: 20px;">
+  <div class="div-botones">
+
+    <button  class="boton azul" style="width: 250px !important;" (click)="cancelar()">Cancelar</button>
+    <!-- <button  class="boton azul" style="width: 250px !important;" routerLink="../" [queryParams]="{ opc: idCategoria, opc2: nombreCategoria }" >Cancelar</button> -->
+
+    <button id="checkPush" class="boton gris push" style="width: 300px !important;" (click)="togglePUSH($event)">
+      <img id="checkPush" src="../../assets/images/{{imagenBoton}}.svg" alt=""> Activar push </button>
+      
+      <button *ngIf="this.enviarPUSH == true" class="boton verde" style="width: 250px !important;" (click)="enviarPush()">Enviar push</button>
+
+      <button class="boton-agregar" style="width: 250px !important;" (click)="addNewPregunta()">+</button>
+  </div>
+</div>
+
+
+<!-- FINAL TODO CONTENIDO PUSH-->
+
+
+<div *ngIf="modalSwitchConfirmacion == true" class="back-modal">
+  <div class="modal-dialog modalEliminar" style="margin-top: 300px;" tabindex="1040">
+    <div class="modal-content" style="width: 450px; border-radius: 10px;">
+      <div class="modal-header" style="background-color: #fff !important; border-radius: 29px 29px 0px 29px; border-bottom: 0px; padding: 10px;">
+        <div style="width: 90%; float: left;"></div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cerrarModal(0)"
+          style="margin: 5px 5px 0 0; color: white; background-color: #00993e; border-radius: 60px; float: right;"></button>
+      </div>
+      <div class="modal-body">
+        <h5 style="text-align: center;">{{mensajeModal}}</h5>
+        <div class="row">
+          <div class="col">
+            <button type="button" class="btn azul btn-rounded" style="width: 160px; height: 50px; margin: 0px auto;"
+              (click)="confirmar()">{{textoBotonConfirmacion}}</button>
+          </div>
+          <div class="col">
+            <button type="button" class="btn verde btn-rounded" style="width: 160px; height: 50px; margin: 0px auto;"
+              data-bs-dismiss="modal" (click)="cerrarModal(0)">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal alerta -->
+<div *ngIf="switchModalAlerta == true" class="back-modal">
+  <div class="modal-dialog modalEliminar" style="margin-top: 300px;" tabindex="1040">
+    <div class="modal-content" style="width: 450px; border-radius: 10px;">
+      <div class="modal-header" style="background-color: #fff !important; border-radius: 29px 29px 0px 29px; border-bottom: 0px; padding: 10px;">
+        <div style="width: 90%; float: left;"></div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cerrarModal(1)"
+          style="margin: 5px 5px 0 0; color: white; background-color: #00993e; border-radius: 60px; float: right;"></button>
+      </div>
+      <div class="modal-body">
+        <p style="text-align: center; color: black !important; padding: 20px; font-size: 25px;">{{mensajeModal}}</p>
+      </div>
+    </div>
+  </div>
+</div>

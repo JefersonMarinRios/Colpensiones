@@ -1,0 +1,183 @@
+<!-- Boton regresar -->
+<div class="row" style="margin-bottom: 10px">
+  <div class="">
+    <!--div-botones-->
+    <button style="color: #00993E;" mat-icon-button aria-label="remove"
+    (click)='atras("atras", presentacion)' >
+    <mat-icon style="font-size: 80px;">reply</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div class="container {{ claseTamano }}">
+  <div class="row">
+    <div class="col">
+      <h1 class="title">
+        {{ accion == "guardar" ? "Crear segmento" : "Modificar segmento" }}
+      </h1>
+    </div>
+  </div>
+
+  <div class="row" id="row-1">
+
+    <!-- Divición sección excel -->
+    <div
+      class="col-4"
+      id="columna-recuadro-excel"
+      *ngIf="currentScreenSize == 'Large' || currentScreenSize == 'XLarge'"
+    >
+      <div id="recuadro-excel" class="recuadro-excel center-y center-x">
+        <img id="imagen" class="stats-logos" />
+      </div>
+
+      <span  class="span-obligatorio" id="spanImagen" style="float: none;">Carga de imagen requerida</span>
+
+      <div class="div-button center-y center-x">
+        <button
+          class="btn-round btn-success"
+          (click)="abirCargaArchivo($event)">
+          <b>Cargar archivo</b> <br />
+          (Extensiones jpg - png)
+        </button>
+       
+        
+        <input  type="file" id="uploadFile" style="display: none" (change)="addFile($event)" />
+      </div>
+      <!--span class="span-obligatorio" id="spanImagen">Carga de imagen requerida</!--span-->
+    </div>
+    {{ anadirImagen() }}
+    <div class="col-8" id="columna-formulario">
+      
+      <!-- Fila titulo segmentacion -->
+      <div class="div-input row">
+        <div class="col-4 columna">
+          <label for="">Titulo del segemento *</label>
+        </div>
+        <div class="col columna">
+          <input [(ngModel)]="segmentacion.titulo" type="text" id="titulo" class="input-form" (change)="removeClass($event)"
+            (keyup)="validarLongitud($event)" maxlength="50"/>
+
+          <span class="span-obligatorio" id="spanTitulo">Campo requerido</span>
+          <span class="span-obligatorio" id="spanTituloC">Tamaño maximo 50 caracteres</span>
+        </div>
+      </div>
+
+      <!-- Url  -->
+      <div class="row" style="margin-top: 20px">
+        <div class="col-4 div-input columna">
+          <label for="">URL del segmento *</label>
+        </div>
+        <div class="col columna">
+          <input [(ngModel)]="segmentacion.urlSegmento" type="text" id="urlSegmento" class="input-form" (change)="removeClass($event)"
+            (keyup)="validarLongitud($event)"  maxlength="500"/>
+          <span class="span-obligatorio" id="spanURL"
+            >Tamaño maximo 500 caracteres</span
+          >
+          <span class="span-obligatorio" id="spanURLC"
+            >Tamaño maximo 500 caracteres</span
+          >
+        </div>
+      </div>
+
+      <!-- Botones inferiores -->
+      <div class="row" style="margin-bottom: 20px">
+        <div class="div-botones">
+          <button
+            class="boton verde"
+            style="width: 250px !important"
+            (click)="guardarCambios()"
+          >
+            Guardar cambios
+          </button>
+
+          <button
+            class="boton azul"
+            style="width: 250px !important"
+            (click)="cancelar()"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="row justify-content-md-center"
+    id="row-2"
+    *ngIf="
+      currentScreenSize == 'Medium' ||
+      currentScreenSize == 'Small' ||
+      currentScreenSize == 'XSmall'
+    "
+  >
+    <div class="col-4" id="columna-recuadro-excel">
+      <div id="recuadro-excel" class="recuadro-excel center-y center-x">
+        <img id="imagen" class="stats-logos" />
+      </div>
+      <div class="div-button center-y center-x">
+        <button
+          class="btn-round btn-success"
+          (click)="abirCargaArchivo($event)"
+        >
+          <b>Cargar archivo</b> <br />
+          (Extensiones jpg - png)
+        </button>
+        <input
+          type="file"
+          id="uploadFile"
+          name="uploadFile"
+          style="display: none"
+          (change)="addFile($event.target.files)"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="switchModal == true" class="back-modal">
+  <div
+    class="modal-dialog modalEliminar"
+    style="margin-top: 300px"
+    tabindex="1040"
+  >
+    <div class="modal-content" style="width: 450px; border-radius: 10px">
+      <div
+        class="modal-header"
+        style="
+          background-color: #fff !important;
+          border-radius: 29px 29px 0px 29px;
+          border-bottom: 0px;
+          padding: 10px;
+        "
+      >
+        <div style="width: 90%; float: left"></div>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="cerrarModal()"
+          style="
+            margin: 5px 5px 0 0;
+            background-color: #00993e;
+            border-radius: 60px;
+            float: right;
+          "
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p
+          style="
+            text-align: center;
+            color: black !important;
+            padding: 20px;
+            font-size: 25px;
+          "
+        >
+          {{ mensajeModal }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

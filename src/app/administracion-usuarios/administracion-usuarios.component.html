@@ -1,0 +1,182 @@
+<!-- <div class="container"> -->
+<div class="row">
+  <div class="col">
+    <h1 class="tittle-parametros">Administración de usuarios</h1>
+  </div>
+</div>
+<div class="row justify-content-end" style="margin-bottom: 10px;">
+  <div class="col-2">
+    <button class="btn btn-secondary boton-abrir-filtro" type="button" (click)="abrirModalFiltro()">
+      Filtros
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <table class="table table-striped tableParametros">
+      <thead>
+        <tr class="bg-success">
+          <td class="thInicial">Nombre</td>
+          <td style="width: 100px !important;">Usuario</td>
+          <td>Rol</td>
+          <td>Habilitar</td>
+          <td class="thFinal">Editar</td>
+        </tr>
+      </thead>
+      <tbody id="bodyTableParametros">
+        <tr *ngFor="let elemento of usuarios | slice:desde:hasta">
+          <td class="tdInicial">{{elemento.nombre}}</td>
+          <td style="width: 100px !important;">{{elemento.correo}}</td>
+          <td>{{elemento.colpRol.nombre}}</td>
+          <td>
+            <input class="radio" type="checkbox" [checked]="elemento.estado == 1"
+              (change)="cambioEstado($event, elemento.id)">
+          <td class="tdFinal">
+            <button style="color: #00993E;" mat-icon-button aria-label="remove"
+              (click)='formulario("editar", elemento.id)'>
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <mat-paginator [length]="usuariosLength" [pageSize]="pageSize" (page)="cambiarPagina($event)"
+      [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+    </mat-paginator>
+  </div>
+</div>
+<div class="row justify-content-end">
+  <div class="col-2 divBtnFinal">
+    <button class="boton azul btnFinal" type="button" (click)='formulario("agregar", 0)'>Agregar</button>
+  </div>
+  <div class="col-2 divBtnFinal">
+    <button class="boton verde btnFinal" (click)="exportExcel()">Descargar</button>
+  </div>
+</div>
+<!-- </div> -->
+
+<!-- modal filtro -->
+<div *ngIf="switchModalFiltro == true" class="back-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Filtros</h5>
+      </div>
+      <div class="modal-body">
+        <div class="row" style="margin-bottom: 20px;">
+          <div class="col">
+            <input placeholder="Nombre" type="text" name="filtroNombre" id="filtroNombre" class="filtros">
+          </div>
+        </div>
+        <div class="row" style="margin-bottom: 20px;">
+          <div class="col">
+            <input placeholder="Usuario" type="text" name="filtroUsuario" id="filtroUsuario" class="filtros">
+          </div>
+        </div>
+        <div class="row" style="margin-bottom: 20px;">
+          <div class="col">
+            <select name="filtroRol" id="filtroRol" class="filtros">
+              <option [value]="null" selected>Seleccione un rol</option>
+              <option *ngFor="let element of roles" [value]="element.id">
+                {{element.nombre}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <div class="col div-botones">
+            <button class="boton azul btn-filtros" (click)="limpiarFiltros()">Limpiar</button>
+          </div>
+          <div class="col div-botones">
+            <button class="boton verde btn-filtros" (click)="filtrar()">Filtrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal acciones -->
+<div *ngIf="switchModal == true" class="back-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{modalTitle}}</h5>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <div class="mb-3">
+              <input type="text" [disabled]='accionFormulario == "editar"' [value]="usuario.correo" class="entrada"
+                id="inputCorreo" placeholder="Usuario *" (keyup)="removeClass($event)">
+              <span class="span-obligatorio" id="spanCorreo">Campo requerido</span>
+            </div>
+            <div class="mb-3">
+              <input type="text" [value]="usuario.nombre" class="entrada" id="inputNombre" placeholder="Nombre *"
+                (keyup)="removeClass($event)">
+              <span class="span-obligatorio" id="spanNombre">Campo requerido</span>
+            </div>
+            <!-- 
+            <div class="mb-3">
+              <input type="text" *ngIf='accionFormulario == "agregar"' [value]="usuario.nombre" class="entrada"
+                id="inputNombre" placeholder="Nombre *" (keyup)="removeClass($event)">
+              <span class="span-obligatorio" id="spanNombre">Campo requerido</span>
+            </div>
+            <div class="mb-3">
+              <input type="text" class="entrada" id="inputCorreo" placeholder="Usuario *" (keyup)="removeClass($event)"
+                value="{{usuario.correo}}">
+              <span class="span-obligatorio" id="spanCorreo">Campo requerido</span>
+            </div> 
+            -->
+            <div class="mb-3">
+              <select id="inputRol" class="entrada" (change)="removeClass($event)">
+                <option value="" [selected]="rolSeleccionado == undefined">Selecciona un rol</option>
+                <option *ngFor="let elemento of roles" [value]="elemento.id"
+                  [selected]="elemento.id == rolSeleccionado.id">
+                  {{elemento.nombre}}
+                </option>
+              </select>
+              <span class="span-obligatorio" id="spanRol">Campo requerido</span>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <div class="col div-botones">
+            <button type="button" class="boton azul" (click)="cerrarModal(0)">Cerrar</button>
+          </div>
+          <div class="col div-botones">
+            <button type="button" class="boton verde" (click)="envioFormulario()">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- modal alerta -->
+<div *ngIf="switchModalAlerta == true" class="back-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-size: 30px !important;">Alerta</h5>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <h5 style="
+              text-align: center;   
+              font-size: 30px;
+              font-weight: 400;
+              margin: 30px 0;
+              ">{{mensajeModal}}</h5>
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <div class="col div-botones">
+            <button type="button" class="boton azul" style="width: 130px !important;"
+              (click)="cerrarModal(1)">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

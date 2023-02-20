@@ -1,0 +1,14 @@
+.title {
+	/* Titulo */
+	text-align: center;
+	font-weight: bold;
+	font-size: 45px;
+	color: #00993E;
+	margin-bottom: 40px;
+  }
+  
+  .back{
+	font-size: 50px;
+	color: #00993E;
+	margin-left: 50px;
+  }
